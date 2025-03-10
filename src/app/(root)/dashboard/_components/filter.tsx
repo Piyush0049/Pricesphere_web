@@ -42,7 +42,7 @@ const Filter: React.FC<Props> = ({ onClose }) => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="z-50 absolute top-full left-0 w-full bg-gray-800/100 text-white shadow-2xl p-5 md:p-8 mt-4 rounded-xl"
+            className="z-50 absolute top-full left-0 w-full bg-gray-800/100 text-white shadow-2xl p-4 sm:p-5 md:p-8 mt-2 rounded-md sm:rounded-xl"
         >
             {/* Header */}
             <div className="flex justify-between items-center mb-6">

@@ -109,3 +109,47 @@ body {
 }
 
 
+.recording-indicator {
+  width: 16px;
+  height: 16px;
+  background-color: red;
+  border-radius: 50%;
+  animation: pulse 1s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+@keyframes colorAndMove {
+  0% {
+    color: #ef4444; /* red-500 */
+    transform: translateY(0);
+  }
+  50% {
+    color: #ff7979; /* red-100 */
+    transform: translateY(-3px);
+  }
+  100% {
+    color: #ef4444;
+    transform: translateY(0);
+  }
+}
+
+.animate-colorAndMove {
+  animation: colorAndMove 2s infinite;
+}
+

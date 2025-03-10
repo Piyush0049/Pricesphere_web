@@ -1,5 +1,5 @@
 import React from "react";
-import HoverCard from "@/components/mycomp";
+import HoverCard from "@/components/hoverCard";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
@@ -12,7 +12,7 @@ interface hoverProduct {
   category?: string;
   delivery: string[];
   noofrate?: string;
-  rating?: string; // "4.0 out of 5 stars"
+  rating?: string;
 }
 
 interface ProductCardProps {
@@ -26,17 +26,26 @@ const HoveredProductCard: React.FC<ProductCardProps> = ({ product }) => {
     return match ? Math.round(parseFloat(match[1]) * 2) / 2 : 0;
   };
 
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) return text;
+    let truncated = text.slice(0, maxLength);
+    if (!truncated.endsWith('...')) {
+      truncated += '...';
+    }
+    return truncated;
+  };
+
   const renderStars = (ratingStr: string | undefined) => {
     const rating = parseRating(ratingStr);
     const stars = [];
 
     for (let i = 0; i < 5; i++) {
       if (rating >= i + 1) {
-        stars.push(<FaStar key={i} className="text-yellow-400 drop-shadow-md" />);
+        stars.push(<FaStar key={i} className="text-yellow-400 text-xs sm:text-base drop-shadow-md" />);
       } else if (rating > i && rating < i + 1) {
-        stars.push(<FaStarHalfAlt key={i} className="text-yellow-400 drop-shadow-md" />);
+        stars.push(<FaStarHalfAlt key={i} className="text-yellow-400 text-xs sm:text-base drop-shadow-md" />);
       } else {
-        stars.push(<FaRegStar key={i} className="text-gray-500 opacity-50" />);
+        stars.push(<FaRegStar key={i} className="text-gray-500 text-xs sm:text-base opacity-50" />);
       }
     }
 
@@ -44,28 +53,30 @@ const HoveredProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <HoverCard className="relative bg-gradient-to-r from-gray-900 to-gray-800 border border-gray-700 shadow-xl rounded-xl p-6 text-white z-20 
-      transition-all duration-300 ease-in-out animate-popIn hover:shadow-orange-400/30">
-      <h3 className="text-lg sm:text-lg font-bold mb-2 border-b border-gray-600 pb-1">
+    <HoverCard>
+      <h3 className="text-sm sm:block hidden sm:text-lg font-bold mb-1.5 sm:mb-2 border-b border-gray-600 pb-1">
         {product.name}
+      </h3>
+      <h3 className="text-[13px] block sm:hidden sm:text-lg font-bold mb-1.5 sm:mb-2 border-b border-gray-600 pb-1">
+        {truncateText(product.name, 70)}
       </h3>
       <p className="text-orange-400 text-sm sm:text-base font-semibold mb-1">
         {product.price}
       </p>
-      <p className="text-gray-400 text-xs sm:text-sm mb-2">
+      <p className="text-gray-400 text-[11px] sm:text-sm mb-1 sm:mb-2">
         {product.website || "Website Unavailable"}
       </p>
       <div className="flex items-center gap-2">
         {renderStars(product.rating)}
-        <span className="text-gray-300 text-xs sm:text-sm font-medium">
-          ({product.noofrate?.match(/[\d,]+/)?.[0] || "0"} ratings)
+        <span className="text-gray-200 text-[9px] sm:text-sm font-medium">
+          ({product.noofrate?.match(/[\d,]+/)?.[0] || "0"})
         </span>
       </div>
       {product.delivery && product.delivery.length > 0 && (
-        <div className="text-gray-300 font-semibold flex flex-col items-start gap-1 text-xs sm:text-xs mt-3 p-2 border border-gray-600 rounded-lg  bg-gradient-to-r from-gray-900 to-gray-800">
-          <h4 className="text-orange-400 text-sm font-bold mb-1">Delivery Details:</h4>
+        <div className="text-gray-100 font-[520] sm:font-semibold flex flex-col items-start gap-1 text-[10px] sm:text-xs mt-1.5 sm:mt-3 sm:p-2 sm:border sm:border-gray-600 sm:rounded-lg sm:bg-gradient-to-r sm:from-gray-900 sm:to-gray-800">
+          <h4 className="text-orange-400 text-sm hidden sm:block font-bold mb-1">Delivery Details:</h4>
           {product.delivery.map((detail, index) => (
-            <p key={index} className="text-gray-400">{detail}</p>
+            <p key={index} className="text-gray-300">{detail}</p>
           ))}
         </div>
       )}
@@ -73,7 +84,7 @@ const HoveredProductCard: React.FC<ProductCardProps> = ({ product }) => {
         href={product.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center gap-2 mt-4 text-orange-500 hover:text-orange-400 font-medium border border-orange-500 px-4 py-2 rounded-lg transition-all duration-300"
+        className="flex items-center justify-center text-[12px] sm:text-base gap-2 mt-1 sm:mt-4 text-orange-500 hover:text-orange-400 font-semibold sm:font-medium sm:border sm:border-orange-500 px-3 py-0.5 sm:px-4 sm:py-2 rounded-md md:rounded-lg transition-all duration-300"
       >
         Buy Now <FaExternalLinkAlt />
       </a>

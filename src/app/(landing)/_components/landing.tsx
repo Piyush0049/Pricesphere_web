@@ -138,7 +138,6 @@ const PriceSpherePage = () => {
         <div className="absolute hidden md:block top-5 right-1/4 w-60 h-60 bg-gradient-to-tl from-pink-500 to-purple-700 rounded-full blur-2xl opacity-25 animate-spin-slow"></div>
         <div className="absolute hidden md:block bottom-12 left-16 w-40 h-40 bg-gradient-to-br from-blue-400 to-cyan-600 rounded-full blur-2xl opacity-20 animate-float"></div>
         <div className="absolute hidden md:block top-64 right-10 w-80 h-80 bg-gradient-to-br from-red-500 to-orange-600 rounded-full blur-[100px] opacity-20 animate-pulse"></div>
-
         <div className="absolute hidden md:block bottom-20 left-1/3 w-96 h-96 bg-gradient-to-br from-green-400 to-teal-700 rounded-lg blur-[120px] opacity-10 animate-pulse"></div>
         <div className="absolute hidden md:block top-40 right-1/4 w-72 h-72 bg-gradient-to-tl from-yellow-500 to-orange-800 rounded-lg blur-[100px] opacity-15 animate-spin-slow"></div>
       </div>
@@ -158,7 +157,7 @@ const PriceSpherePage = () => {
             <span className="text-orange-500 font-bold">PriceSphere</span>'s best
             deals across the country.
           </p>
-          <div className="mt-3 flex justify-center items-center">
+          <div className="mt-3 flex font-poppins justify-center items-center">
             <form className="relative w-full flex max-w-lg" onSubmit={handleSubmit}>
               <span className="absolute top-1/2 transform -translate-y-1/2 left-4 text-orange-500 font-medium text-[12px] md:text-base">
                 pricesphere.in/
@@ -167,7 +166,7 @@ const PriceSpherePage = () => {
                 type="email"
                 ref={inputRef}
                 required
-                className="w-full py-3 pl-28 sm:pl-44 pr-14 bg-gray-800 text-gray-200 rounded-full text-[13px] placeholder:text-[13px] md:text-base md:placeholder:text-base placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
+                className="w-full py-3 pl-28 sm:pl-44 pr-14 bg-gray-800 text-gray-200 rounded-full text-[13px] placeholder:text-[13px] md:text-base md:placeholder:text-base placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
                 placeholder="eg. example@gmail.com"
               />
               <button
@@ -177,7 +176,7 @@ const PriceSpherePage = () => {
                 {loading ? (
                   <div className="spinner-border animate-spin inline-block w-6 h-6 border-[2px] rounded-full border-t-transparent border-r-transparent"></div>
                 ) : (
-                  <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500 text-2xl cursor-pointer">
+                  <span className="absolute right-4 top-[11px] transform -translate-y-1/2 text-orange-500 text-2xl cursor-pointer">
                     &rarr;
                   </span>
                 )}

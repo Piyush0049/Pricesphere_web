@@ -15,7 +15,6 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 backdrop-blur-md border border-gray-700 hover:shadow-orange-400/40 shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 overflow-hidden rounded-xl">
-      {/* Product Image */}
       <div className="relative w-full">
         <img
           src={product.image}
@@ -24,7 +23,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         />
       </div>
 
-      {/* Product Details */}
       <div className="p-4 sm:p-5">
         <h2 className="text-lg sm:text-xl font-semibold text-white mb-2 truncate hover:text-orange-400 transition-colors">
           {product.name}
@@ -34,12 +32,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {product.website || "No Website Available"}
         </p>
 
-        {/* Divider Line */}
         <div className="h-[1px] bg-gray-700 my-3"></div>
 
-        {/* Price & Buy Now Button */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          {/* Price Tag */}
           <span className="text-xl sm:text-2xl font-bold text-orange-400 drop-shadow-md">
             <sup className="text-xs sm:text-sm text-orange-500 font-medium">₹</sup>
             {product.price.replace("₹", "")}

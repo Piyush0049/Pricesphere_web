@@ -1,5 +1,5 @@
 import React from "react";
-import HoverCard from "@/components/mycomp";
+import HoverCard from "@/components/hoverCard";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
@@ -44,9 +44,8 @@ const HoveredProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <HoverCard className="relative bg-gradient-to-r from-gray-900 to-gray-800 border border-gray-700 shadow-xl rounded-xl p-6 text-white z-20 
-      transition-all duration-300 ease-in-out animate-popIn hover:shadow-orange-400/30">
-      <h3 className="text-lg sm:text-lg font-bold mb-2 border-b border-gray-600 pb-1">
+    <HoverCard>
+      <h3 className="text-lg sm:text-base font-bold mb-2 border-b border-gray-600 pb-1">
         {product.name}
       </h3>
       <p className="text-orange-400 text-sm sm:text-base font-semibold mb-1">
