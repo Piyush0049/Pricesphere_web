@@ -173,21 +173,21 @@ const ProductsPage: React.FC = () => {
         </header>
         <main className="pt-4 sm:pt-7 pb-10 px-2 sm:px-6 relative">
           {!loading && sortedProducts?.length && !mounted ? (
-              <div className="grid grid-cols-2 sm:grid-cols-2 sc2:grid-cols-3 gap-2 sm:gap-5">
-                {sortedProducts.map((product, id) => (
-                  <div
-                    key={id}
-                    className="relative"
-                    onMouseEnter={() => setHoveredProduct(product)}
-                    onMouseLeave={() => setHoveredProduct(null)}
-                  >
-                    <ProductCard product={product} />
-                    {hoveredProduct && hoveredProduct === product && (
-                      <HoveredProductCard product={product} />
-                    )}
-                  </div>
-                ))}
-              </div>
+            <div className="grid grid-cols-2 sm:grid-cols-2 sc2:grid-cols-3 gap-2 sm:gap-5">
+              {sortedProducts.map((product, id) => (
+                <div
+                  key={id}
+                  className="relative"
+                  onMouseEnter={() => setHoveredProduct(product)}
+                  onMouseLeave={() => setHoveredProduct(null)}
+                >
+                  <ProductCard product={product} />
+                  {hoveredProduct && hoveredProduct === product && (
+                    <HoveredProductCard product={product} />
+                  )}
+                </div>
+              ))}
+            </div>
           ) : !loading && !mounted ? (
             <NotFoundComponent />
           ) : loading && !mounted ? (

@@ -20,6 +20,7 @@ interface ProductCardProps {
 }
 
 const HoveredProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  console.log(product)
   const parseRating = (rating: string | undefined): number => {
     if (!rating) return 0;
     const match = rating.match(/([\d.]+)\s*out/);
@@ -29,8 +30,8 @@ const HoveredProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const truncateText = (text: string, maxLength: number) => {
     if (text.length <= maxLength) return text;
     let truncated = text.slice(0, maxLength);
-    if (!truncated.endsWith('...')) {
-      truncated += '...';
+    if (!truncated.endsWith("...")) {
+      truncated += "...";
     }
     return truncated;
   };
@@ -41,11 +42,26 @@ const HoveredProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     for (let i = 0; i < 5; i++) {
       if (rating >= i + 1) {
-        stars.push(<FaStar key={i} className="text-yellow-400 text-xs sm:text-base drop-shadow-md" />);
+        stars.push(
+          <FaStar
+            key={i}
+            className="text-yellow-400 text-xs sm:text-base drop-shadow-md"
+          />
+        );
       } else if (rating > i && rating < i + 1) {
-        stars.push(<FaStarHalfAlt key={i} className="text-yellow-400 text-xs sm:text-base drop-shadow-md" />);
+        stars.push(
+          <FaStarHalfAlt
+            key={i}
+            className="text-yellow-400 text-xs sm:text-base drop-shadow-md"
+          />
+        );
       } else {
-        stars.push(<FaRegStar key={i} className="text-gray-500 text-xs sm:text-base opacity-50" />);
+        stars.push(
+          <FaRegStar
+            key={i}
+            className="text-gray-500 text-xs sm:text-base opacity-50"
+          />
+        );
       }
     }
 
@@ -67,16 +83,22 @@ const HoveredProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {product.website || "Website Unavailable"}
       </p>
       <div className="flex items-center gap-2">
-        {renderStars(product.rating)}
-        <span className="text-gray-200 text-[9px] sm:text-sm font-medium">
-          ({product.noofrate?.match(/[\d,]+/)?.[0] || "0"})
-        </span>
+        {product.rating && renderStars(product.rating)}
+        {product.noofrate && (
+          <span className="text-gray-200 text-[9px] sm:text-sm font-medium">
+            ({product.noofrate?.match(/[\d,]+/)?.[0] || "0"})
+          </span>
+        )}
       </div>
       {product.delivery && product.delivery.length > 0 && (
         <div className="text-gray-100 font-[520] sm:font-semibold flex flex-col items-start gap-1 text-[10px] sm:text-xs mt-1.5 sm:mt-3 sm:p-2 sm:border sm:border-gray-600 sm:rounded-lg sm:bg-gradient-to-r sm:from-gray-900 sm:to-gray-800">
-          <h4 className="text-orange-400 text-sm hidden sm:block font-bold mb-1">Delivery Details:</h4>
+          <h4 className="text-orange-400 text-sm hidden sm:block font-bold mb-1">
+            Delivery Details:
+          </h4>
           {product.delivery.map((detail, index) => (
-            <p key={index} className="text-gray-300">{detail}</p>
+            <p key={index} className="text-gray-300">
+              {detail}
+            </p>
           ))}
         </div>
       )}
@@ -89,7 +111,6 @@ const HoveredProductCard: React.FC<ProductCardProps> = ({ product }) => {
         Buy Now <FaExternalLinkAlt />
       </a>
     </HoverCard>
-
   );
 };
 
