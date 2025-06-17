@@ -110,7 +110,6 @@ const SignupPage: React.FC<Verification> = ({ isVerify, setIsVerify }) => {
       className="min-h-screen flex font-poppins justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white relative bg-cover bg-center"
       style={{ backgroundImage: "url('/assets/signup.png')", backgroundColor: "#1f2937" }}
     >
-      {/* Background Overlay (For Blur and Darkness) */}
       <div className="absolute inset-0 bg-black opacity-85 lg:opacity-70 backdrop-blur-xl"></div>
       <div className="flex lg:w-[40%] justify-center items-center bg-transparent px-[18px] lg:pl-10 py-10 bg-opacity-80 relative z-10">
         <div className="w-full lg:max-w-[83%] xl:max-w-[63%] space-y-8">

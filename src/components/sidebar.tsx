@@ -5,6 +5,7 @@ import { RiDiscountPercentFill } from "react-icons/ri";
 import { usePathname } from 'next/navigation';
 import { MdImageSearch } from "react-icons/md";
 import { MdOutlineCompare } from "react-icons/md";
+import { LuLogOut } from "react-icons/lu";
 
 
 const Sidebar = () => {
@@ -12,9 +13,7 @@ const Sidebar = () => {
   const pathname = usePathname();
   return (
     <>
-      {/* Sidebar for larger screens */}
       <aside className="hidden sm:flex w-[60px] lg:w-64 sticky top-0 lg:rounded-l-xl max-h-screen bg-transparent border-r-[1px] border-gray-700 px-0 pb-6 lg:p-6 flex-col justify-between lg:shadow-lg">
-        {/* Logo Section */}
         <div className="flex flex-col items-center">
           <img
             src="/assets/logo.png"
@@ -54,6 +53,12 @@ const Sidebar = () => {
             className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base ${pathname === '/aboutus' ? 'text-orange-500 lg:bg-gray-800' : 'text-gray-400 hover:text-orange-400 hover:bg-gray-700'} lg:px-3 py-2 rounded transition`}>
             <span className="text-xl lg:text-lg lg:mr-3"><FaInfoCircle /></span>
             <span className='hidden lg:block'>About Us</span>
+          </div>
+          <div
+            onClick={() => {  }}
+            className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base ${pathname === '/aboutus' ? 'text-orange-500 lg:bg-gray-800' : 'text-gray-400 hover:text-orange-400 hover:bg-gray-700'} lg:px-3 py-2 rounded transition`}>
+            <span className="text-xl lg:text-lg lg:mr-3"><LuLogOut /></span>
+            <span className='hidden lg:block'>Log Out</span>
           </div>
         </nav>
         <div className="text-sm text-gray-500 text-center mt-10">
