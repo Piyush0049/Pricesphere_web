@@ -52,6 +52,32 @@ export const getUser = async () => {
   }
 };
 
+export const loginInUser = async (data: any) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+        credentials: "include",
+        cache: "no-store",
+      }
+    );
+
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Error logging in user: ${error.message}`);
+    } else {
+      throw new Error("An unknown error occurred while logging in the user!");
+    }
+  }
+};
 
 
 export const signUpUser = async (data: any) => {

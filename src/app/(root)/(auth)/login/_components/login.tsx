@@ -4,6 +4,8 @@ import { FaEye, FaGoogle } from "react-icons/fa";
 import Image from "next/image";
 import GoogleLoginButton from "@/components/googleloginbutton";
 import { FaEyeSlash } from "react-icons/fa";
+import { loginInUser } from "@/actions/user_action";
+import toast from "react-hot-toast";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -29,7 +31,7 @@ const LoginPage: React.FC = () => {
     return "";
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async(event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitting(true);
     try {
@@ -42,7 +44,16 @@ const LoginPage: React.FC = () => {
       if (!emailValidationError && !passwordValidationError) {
         console.log({ email, password });
       }
+      console.log({ email, password });
+      const res = await loginInUser({ email, password });
+      console.log(res);
+      toast.success("Login successful!");
+      setEmail("");
+      setPassword("");
+      setEmailError("");
     } catch (error) {
+      toast.error("Login failed. Please try again.");
+      setEmailError("Login failed. Please try again.");
       console.log(error)
     }
     finally{
