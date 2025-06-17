@@ -6,8 +6,10 @@ import GoogleLoginButton from "@/components/googleloginbutton";
 import { FaEyeSlash } from "react-icons/fa";
 import { loginInUser } from "@/actions/user_action";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const LoginPage: React.FC = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -47,7 +49,13 @@ const LoginPage: React.FC = () => {
       console.log({ email, password });
       const res = await loginInUser({ email, password });
       console.log(res);
-      toast.success("Login successful!");
+      if(!res.success) {
+        setEmailError(res.message || "Login failed. Please try again.");
+        toast.error(res.message || "Login failed. Please try again.");
+      }else {
+        toast.success("Login successful!");
+        router.push("/dashboard");
+      }
       setEmail("");
       setPassword("");
       setEmailError("");
