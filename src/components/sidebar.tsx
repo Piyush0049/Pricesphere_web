@@ -56,17 +56,13 @@ const Sidebar = () => {
           </div>
           <div
             onClick={() => {  }}
-            className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base ${pathname === '/aboutus' ? 'text-orange-500 lg:bg-gray-800' : 'text-gray-400 hover:text-orange-400 hover:bg-gray-700'} lg:px-3 py-2 rounded transition`}>
+            className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base text-gray-400 hover:text-orange-400 hover:bg-gray-700 lg:px-3 py-2 rounded transition`}>
             <span className="text-xl lg:text-lg lg:mr-3"><LuLogOut /></span>
             <span className='hidden lg:block'>Log Out</span>
           </div>
         </nav>
-        <div className="text-sm text-gray-500 text-center mt-10">
-          <span className='hidden lg:block'>&copy; 2025 PriceSphere. All rights reserved.</span>
-        </div>
       </aside>
 
-      {/* Bottom Navigation for smaller screens */}
       <div className="flex sm:hidden fixed bottom-0 left-0 w-full z-[1000000] border-t-[1px] border-gray-500 bg-gray-900 justify-around items-center py-[13px] shadow-lg">
         <div onClick={() => { router.push("/dashboard") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/dashboard' ? 'text-orange-600' : 'text-white hover:text-orange-500'}   transition`}>
           <FaHome size={20} />
@@ -82,6 +78,9 @@ const Sidebar = () => {
         </div>
         <div onClick={() => { router.push("/aboutus") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/aboutus' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
           <FaInfoCircle size={20} />
+        </div>
+        <div onClick={() => {  }} className={`flex hover:cursor-pointer flex-col items-center text-white hover:text-orange-500 transition`}>
+          <LuLogOut size={20} />
         </div>
       </div>
     </>
