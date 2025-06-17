@@ -82,6 +82,33 @@ export const signUpUser = async (data: any) => {
 };
 
 
+export const logoutUser = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/logout`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        // cache: "no-store",
+      }
+    );
+
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Error registering user: ${error.message}`);
+    } else {
+      throw new Error("An unknown error occurred while registering user!");
+    }
+  }
+};
+
+
 
 export const resendOtp = async (email: string) => {
   try {

@@ -6,9 +6,23 @@ import { usePathname } from 'next/navigation';
 import { MdImageSearch } from "react-icons/md";
 import { MdOutlineCompare } from "react-icons/md";
 import { LuLogOut } from "react-icons/lu";
+import { logoutUser } from "@/actions/user_action";
+import toast from "react-hot-toast";
 
 
 const Sidebar = () => {
+  const logout = (e:any) => {
+    e.preventDefault();
+    logoutUser()
+      .then(() => {
+        toast.success("Logged out successfully");
+        window.location.href = "/login";
+      })
+      .catch((error) => {
+        toast.error("Logout failed. Please try again.");
+        console.error("Logout failed:", error);
+      });
+  }
   const router = useRouter();
   const pathname = usePathname();
   return (
@@ -55,7 +69,7 @@ const Sidebar = () => {
             <span className='hidden lg:block'>About Us</span>
           </div>
           <div
-            onClick={() => {  }}
+            onClick={(e) => logout(e)}
             className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base text-gray-400 hover:text-orange-400 hover:bg-gray-700 lg:px-3 py-2 rounded transition`}>
             <span className="text-xl lg:text-lg lg:mr-3"><LuLogOut /></span>
             <span className='hidden lg:block'>Log Out</span>
@@ -79,7 +93,7 @@ const Sidebar = () => {
         <div onClick={() => { router.push("/aboutus") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/aboutus' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
           <FaInfoCircle size={20} />
         </div>
-        <div onClick={() => {  }} className={`flex hover:cursor-pointer flex-col items-center text-white hover:text-orange-500 transition`}>
+        <div onClick={(e) => logout(e)} className={`flex hover:cursor-pointer flex-col items-center text-white hover:text-orange-500 transition`}>
           <LuLogOut size={20} />
         </div>
       </div>
