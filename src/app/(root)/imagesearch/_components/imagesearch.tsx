@@ -51,7 +51,7 @@ const ImageUploadSearch: React.FC = () => {
           },
         }
       );
-      console.log(response2)
+      console.log("resp : ",response2)
       setFetchedProducts(response2.data)
     }
     setmounted(true)
