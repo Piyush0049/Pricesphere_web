@@ -5,8 +5,6 @@ import { Toaster } from "react-hot-toast";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import StoreProvider from "./StoreProvider";
 import { getUser } from "@/actions/user_action";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { AllPageLoader } from "@/components/allloader";
 
 const geistSans = Geist({
@@ -24,7 +22,7 @@ export const metadata: Metadata = {
   description: "Find Exclusive Offers",
 };
 
-const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_API_GOOGLE_CLIENT_ID; // Replace with your actual client ID
+const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_API_GOOGLE_CLIENT_ID;
 
 export default async function RootLayout({
   children,
