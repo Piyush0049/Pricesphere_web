@@ -66,8 +66,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                 context.scale(-1, 1);
 
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                // Reset transform to avoid affecting future drawings
                 context.setTransform(1, 0, 0, 1, 0, 0);
                 const imageDataUrl = canvas.toDataURL("image/png");
                 setCapturedImage(imageDataUrl);

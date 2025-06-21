@@ -41,11 +41,6 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ className = "", t
 
         toast.success("Login success");
         router.replace("/dashboard");
-        // if (res.status === 201) {
-        //   router.replace("/initial-info");
-        // } else {
-        //   router.replace("/");
-        // }
       } catch (error: any) {
         console.error("Axios error:", error);
         toast.error("Google login failed!");
@@ -63,7 +58,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ className = "", t
     <button
       type="button"
       onClick={() => login()}
-      className={`w-full text-lg lg:text-base text-orange-400 h-12 gap-2 ${className}`} // Include the passed className
+      className={`w-full text-lg lg:text-base text-orange-400 h-12 gap-2 ${className}`} 
       disabled={isLoading}
     >
       {isLoading ? (
