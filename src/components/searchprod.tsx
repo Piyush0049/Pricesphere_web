@@ -3,7 +3,6 @@ import { FaSearch } from "react-icons/fa";
 const SearchProductsPrompt = () => {
   return (
     <div className="flex flex-col items-center justify-center h-64 bg-transparent text-orange-100 py-6 lg:p-6">
-      {/* The logo with a slow bounce animation */}
       <img
         src="/assets/logo.png"
         alt="logo"
