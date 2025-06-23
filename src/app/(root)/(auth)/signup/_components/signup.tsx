@@ -93,7 +93,6 @@ const SignupPage: React.FC<Verification> = ({ isVerify, setIsVerify }) => {
         toast.success(responseData.message);
         localStorage.setItem("email", data.email);
         setIsVerify(true);
-        // router.replace("/dashboard");
       } else {
         toast.error(responseData.message);
       }

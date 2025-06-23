@@ -20,7 +20,6 @@ const ResendOtpButton = () => {
       } else {
         toast.error(data.message);
       }
-      // Restart the timer after successful resend
       setTimeLeft(30);
     } catch (error: any) {
       toast.error("Error re-sending OTP", {
