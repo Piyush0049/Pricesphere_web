@@ -36,7 +36,7 @@ const ComparePage: React.FC = () => {
     try {
       setmounted(false)
       setloading(true)
-      const response = await axios.get(`http://127.0.0.1:7000/search`
+      const response = await axios.get(`${process.env.NEXT_PYTHON_API}/search`
         , {
           params: {
             key: searchQuery,
