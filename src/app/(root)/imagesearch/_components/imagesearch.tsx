@@ -44,7 +44,7 @@ const ImageUploadSearch: React.FC = () => {
     });
     console.log(response)
     if (response.data.value) {
-      const response2 = await axios.get(`http://127.0.0.1:7000/search`
+      const response2 = await axios.get(`${process.env.NEXT_PYTHON_API}/search`
         , {
           params: {
             key: response.data.value,
