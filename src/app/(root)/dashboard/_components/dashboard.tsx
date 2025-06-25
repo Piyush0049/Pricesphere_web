@@ -55,7 +55,7 @@ const ProductsPage: React.FC = () => {
     try {
       setMounted(false);
       setLoading(true);
-      const response = await axios.get("http://127.0.0.1:7000/search", {
+      const response = await axios.get(`${process.env.NEXT_PYTHON_API}/search`, {
         params: { key: cleanedQuery },
       });
       setLoading(false);
@@ -76,7 +76,7 @@ const ProductsPage: React.FC = () => {
     try {
       setMounted(false);
       setLoading(true);
-      const response = await axios.get("http://127.0.0.1:7000/search", {
+      const response = await axios.get(`${process.env.NEXT_PYTHON_API}/search`, {
         params: { key: cleanedQuery },
       });
       setLoading(false);

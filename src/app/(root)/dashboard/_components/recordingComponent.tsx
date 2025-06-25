@@ -70,7 +70,7 @@ const RecordingComponent: FC<RecordingComponentProps> = ({
           formData.append("file", audioBlob, "recording.webm");
           try {
             const response = await axios.post(
-              "http://127.0.0.1:7000/api/transcribe",
+              `${process.env.NEXT_PYTHON_API}/api/transcribe`,
               formData
             );
             console.log("Transcription:", response.data.transcription);
