@@ -20,7 +20,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product ,key }) => {
     key={key}
       className="bg-transparent font-poppins hover:shadow-xl hover:bg-gray-900 hover:-translate-y-2 transform transition-all duration-300 overflow-hidden rounded-lg"
     >
-      {/* Product Image */}
       <div className="relative w-full">
         <img
           src={product.image}
@@ -29,22 +28,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product ,key }) => {
         />
       </div>
 
-      {/* Product Details */}
       <div className="p-4 sm:p-[18px]">
-        {/* Product Name */}
         <h2 className="text-base sm:text-xl font-semibold text-white mb-2 truncate hover:text-orange-400 transition-colors">
           {product.name}
         </h2>
 
-        {/* Product Website */}
         <p className="text-xs sm:text-sm text-gray-300 mb-3 truncate">
           {product.website || "No Website Available"}
         </p>
 
-        {/* Divider */}
         <div className="h-[1px] bg-gray-700 my-2 sm:my-3"></div>
 
-        {/* Price and View Button */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <span className="text-lg sm:text-xl font-bold text-orange-400">
             <sup className="text-xs sm:text-sm text-orange-500 font-medium">₹</sup>
