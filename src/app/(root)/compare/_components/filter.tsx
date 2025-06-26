@@ -59,7 +59,6 @@ const Filter: React.FC<Props> = ({ onClose }) => {
             </div>
 
             <div className="flex flex-col md:grid md:grid-cols-2 md:gap-8">
-                {/* Price Range Filter */}
                 <div>
                     <h4 className="text-sm lg:text-base font-semibold text-gray-100 mb-4 tracking-wide">
                         Price Range
