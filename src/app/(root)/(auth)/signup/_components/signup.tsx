@@ -18,6 +18,7 @@ interface SignupResponse {
   message: string;
 }
 
+// Remove the unused variable from props destructuring
 const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -31,6 +32,7 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null); // Move this outside the catch block
+  // Keep router for future use or remove if truly unused
   const router = useRouter();
 
 

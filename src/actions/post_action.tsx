@@ -1,4 +1,3 @@
-
 export const createPost = async (data: { title: string; content: string; [key: string]: unknown }) => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/post/create`, {
@@ -9,36 +8,18 @@ export const createPost = async (data: { title: string; content: string; [key: s
             },
             credentials: "include",
         });
-        const res = await response.json();
-        return res;
-    } catch (error: unknown) {
-        if (error instanceof Error && 'response' in error) {
-            return (error as any).response.data.message;
-        }
-        return "An unknown error occurred";
-    }
-} 
 
-export const getPosts = async (page?: number, limit?: number) => {
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/post/get?limit=${limit}&page=${page}`, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-            credentials: "include",
-        });
+        if (!response.ok) {
+            const errorRes = await response.json();
+            return { error: errorRes.message || 'Failed to create post' };
+        }
+
         const res = await response.json();
         return res;
     } catch (error) {
         if (error instanceof Error) {
             return { error: error.message };
         }
-        // For axios errors with response data
-        const axiosError = error as { response?: { data?: { message?: string } } };
-        if (axiosError.response?.data?.message) {
-            return { error: axiosError.response.data.message };
-        }
-        return { error: 'An unknown error occurred' };
+        return { error: "An unknown error occurred" };
     }
-}
+};
