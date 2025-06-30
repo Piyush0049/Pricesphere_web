@@ -12,7 +12,12 @@ interface Verification {
   setIsVerify: (value: boolean) => void;
 }
 
-// Remove the unused variable from props destructuring
+// Define the response type for signUpUser
+interface SignupResponse {
+  success: boolean;
+  message: string;
+}
+
 const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -25,6 +30,7 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null); // Move this outside the catch block
   const router = useRouter();
 
 
@@ -71,14 +77,18 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitting(true);
+    setError(null); // Reset error state
+    
     const usernameValidationError = validateUsername(username);
     const emailValidationError = validateEmail(email);
     const passwordValidationError = validatePassword(password);
     const confirmPasswordValidationError = validateConfirmPassword(confirmPassword);
+    
     setUsernameError(usernameValidationError);
     setEmailError(emailValidationError);
     setPasswordError(passwordValidationError);
     setConfirmPasswordError(confirmPasswordValidationError);
+    
     if (
       !usernameValidationError &&
       !emailValidationError &&
@@ -87,9 +97,17 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
     ) {
       console.log({ username, email, password });
     }
-    const data = { username, email, password, confirmPassword }
+    
+    // Adjust the data structure to match the SignupData interface
+    const data = { 
+      name: username, // Using username as name since name is required in SignupData
+      username, 
+      email, 
+      password 
+    };
+    
     try {
-      const responseData = await signUpUser(data);
+      const responseData = await signUpUser(data) as SignupResponse;
       if (responseData.success) {
         toast.success(responseData.message);
         localStorage.setItem("email", data.email);
@@ -97,8 +115,15 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
       } else {
         toast.error(responseData.message);
       }
-    } catch (error: any) {
-      toast.error("Error registering user.");
+    } catch (error) {
+      // Properly type the error and handle it
+      if (error instanceof Error) {
+        setError(error.message);
+        toast.error(error.message || "Error registering user.");
+      } else {
+        setError("An unknown error occurred");
+        toast.error("Error registering user.");
+      }
     } finally {
       setIsSubmitting(false);
     }

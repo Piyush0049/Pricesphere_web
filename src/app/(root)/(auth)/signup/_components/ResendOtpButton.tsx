@@ -5,22 +5,49 @@ import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+// Define the expected response type from resendOtp
+interface OtpResponse {
+  success?: boolean;
+  message?: string;
+  error?: string;
+  user?: any;
+  token?: string;
+}
+
 const ResendOtpButton = () => {
   const [isResendingOTP, setIsResendingOTP] = useState(false);
   const [timeLeft, setTimeLeft] = useState(30);
 
-  // Fix for line 24:21
   const resendOTPHandler = async () => {
     setIsResendingOTP(true);
     const email = localStorage.getItem("email");
   
     try {
-      const data = await resendOtp(email!);
-      if (data.success) {
-        toast.success(data.message);
-      } else {
-        toast.error(data.message);
+      // Handle null email case properly
+      if (!email) {
+        toast.error("Email not found");
+        return;
       }
+      
+      const data = await resendOtp(email) as OtpResponse;
+      
+      // Check for error property first (from our updated resendOtp function)
+      if (data.error) {
+        toast.error(data.error);
+      } 
+      // Then check for success message
+      else if (data.success && data.message) {
+        toast.success(data.message);
+      }
+      // Handle case where we get user and token but no explicit success message
+      else if (data.user && data.token) {
+        toast.success("OTP sent successfully");
+      }
+      // Fallback error case
+      else {
+        toast.error("Failed to resend OTP");
+      }
+      
       setTimeLeft(30);
     } catch (error: unknown) {
       toast.error("Error re-sending OTP", {
@@ -61,7 +88,7 @@ const ResendOtpButton = () => {
           "Resend OTP"
         )}
       </button>
-      <span className={`text-sm text-orange-300 ${timeLeft==0 && "hidden"}`}>
+      <span className={`text-sm text-orange-300 ${timeLeft === 0 && "hidden"}`}>
         Resend OTP in 00:{String(timeLeft).padStart(2, "0")}s
       </span>
     </div>

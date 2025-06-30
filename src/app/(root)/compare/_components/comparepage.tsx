@@ -26,7 +26,16 @@ type Product = {
 const ComparePage: React.FC = () => {
   const [loading, setloading] = useState(false);
   const [mounted, setmounted] = useState(true);
-  const { company, minPrice, maxPrice, sortBy } = useSelector((state: any) => state.filters);
+  // Define a proper type for the state
+  interface FilterState {
+    company: string[];
+    minPrice: number;
+    maxPrice: number;
+    sortBy: string;
+  }
+  
+  // Then use it in the useSelector
+  const { company, minPrice, maxPrice, sortBy } = useSelector((state: { filters: FilterState }) => state.filters);
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
   const [fetchedProducts, setFetchedProducts] = useState<Product[] | null>(null);

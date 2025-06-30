@@ -1,5 +1,6 @@
 import { getCookie } from "./cookie_actions";
 import apiClient from "@/apiClient/apiClient";
+import { UserDataProps } from "@/types";
 
 // Fix for line 55:41 and 83:40
 // Update the joinWaitingList function to handle errors properly
@@ -58,7 +59,13 @@ export const getUser = async () => {
   }
 };
 
-export const loginInUser = async (data: any) => {
+// Fixed any type with proper interface
+interface LoginData {
+  email: string;
+  password: string;
+}
+
+export const loginInUser = async (data: LoginData) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`,
@@ -85,8 +92,15 @@ export const loginInUser = async (data: any) => {
   }
 };
 
+// Fixed any type with proper interface
+interface SignupData {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+}
 
-export const signUpUser = async (data: any) => {
+export const signUpUser = async (data: SignupData) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/register`,
@@ -133,27 +147,34 @@ export const logoutUser = async () => {
     return responseData;
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error(`Error registering user: ${error.message}`);
+      throw new Error(`Error logging out user: ${error.message}`);
     } else {
-      throw new Error("An unknown error occurred while registering user!");
+      throw new Error("An unknown error occurred while logging out user!");
     }
   }
 };
 
 
-
+// Fixed duplicate catch blocks and variable naming issues
 export const resendOtp = async (email: string) => {
   try {
-    const res = await apiClient.post("/api/auth/resend", { email });
+    const response = await apiClient.post("/api/auth/resend", { email });
 
-    const data = res.data;
+    // Fixed type and variable name
+    const data = response.data as { user: UserDataProps; token: string };
     return data;
-  } catch (error: unknown) {
+  } catch (error) {
     if (error instanceof Error) {
       throw new Error(`Error re-sending OTP: ${error.message}`);
-    } else {
-      throw new Error("An unknown error occurred while re-sending OTP!");
     }
+    
+    // For axios errors with response data
+    const axiosError = error as { response?: { data?: { message?: string } } };
+    if (axiosError.response?.data?.message) {
+      throw new Error(axiosError.response.data.message);
+    }
+    
+    throw new Error("An unknown error occurred while re-sending OTP!");
   }
 };
 

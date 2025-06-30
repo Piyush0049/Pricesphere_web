@@ -29,10 +29,15 @@ export const getProject = async (page: number, limit: number) => {
         });
         const res = await response.json();
         return res;
-    } catch (error: unknown) {
-        if (error instanceof Error && 'response' in error) {
-            return (error as any).response.data.message;
+    } catch (error) {
+        if (error instanceof Error) {
+            return { error: error.message };
         }
-        return "An unknown error occurred";
+        // For axios errors with response data
+        const axiosError = error as { response?: { data?: { message?: string } } };
+        if (axiosError.response?.data?.message) {
+            return { error: axiosError.response.data.message };
+        }
+        return { error: 'An unknown error occurred' };
     }
 }

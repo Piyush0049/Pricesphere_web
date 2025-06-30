@@ -78,7 +78,7 @@ const PriceSpherePage = () => {
   return (
     <div className="font-poppins min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white flex flex-col items-center justify-center relative overflow-hidden">
       <header className="fixed top-0 z-50 w-full px-3 md:px-5 lg:px-28 py-2 flex justify-between items-center bg-transparent bg-opacity-80 backdrop-filter backdrop-blur-md rounded-b-xl">
-        // Replace the img element with Next.js Image component
+        {/* Replace the img element with Next.js Image component */}
         <div className="flex items-center">
           <Image 
             src="/assets/logo.png" 

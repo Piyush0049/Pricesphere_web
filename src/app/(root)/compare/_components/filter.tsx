@@ -25,7 +25,7 @@ const Filter: React.FC<Props> = ({ onClose }) => {
         const { value, checked } = e.target;
         const updatedCompanies = checked
             ? [...filters.company, value]
-            : filters.company.filter((item: any) => item !== value);
+            : filters.company.filter((item: string) => item !== value);
         dispatch(setCompany(updatedCompanies));
     };
 
