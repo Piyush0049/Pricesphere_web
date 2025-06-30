@@ -20,8 +20,8 @@ interface ICoupon {
 const CouponsPage: React.FC = () => {
   const [selectedWebsite, setSelectedWebsite] = useState("All");
   const [coupons, setCoupons] = useState<ICoupon[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState<string | null>(null);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCoupon, setSelectedCoupon] = useState<ICoupon | null>(null);
@@ -30,15 +30,15 @@ const CouponsPage: React.FC = () => {
 
   useEffect(() => {
     const fetchCoupons = async () => {
-      setLoading(true);
-      setError(null);
+      // setLoading(true);
+      // setError(null);
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/coupons/get`);
         setCoupons(response.data);
       } catch (err) {
-        setError("Failed to fetch coupons");
+        // setError("Failed to fetch coupons");
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 

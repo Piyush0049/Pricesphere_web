@@ -92,7 +92,6 @@ const PriceSpherePage = () => {
           </div>
         </div>
         
-        // Fix the unescaped entity
         <p className="mt-4 mb-10 text-base md:text-lg text-gray-300">
           Save <span className="text-white font-bold">time</span> and{" "}
           <span className="text-white font-bold">money</span> with{" "}
@@ -170,7 +169,7 @@ const PriceSpherePage = () => {
           <p className="mt-4 mb-10 text-base md:text-lg text-gray-300">
             Save <span className="text-white font-bold">time</span> and{" "}
             <span className="text-white font-bold">money</span> with{" "}
-            <span className="text-orange-500 font-bold">PriceSphere</span>'s best
+            <span className="text-orange-500 font-bold">PriceSphere</span>&apos;s best
             deals across the country.
           </p>
           <div className="mt-3 flex font-poppins justify-center items-center">

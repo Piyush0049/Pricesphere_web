@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+
 
 interface Product {
   image: string;
@@ -16,10 +18,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 backdrop-blur-md border border-gray-700 hover:shadow-orange-400/40 shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 overflow-hidden rounded-xl">
       <div className="relative w-full">
-        <img
+        <Image
           src={product.image}
           alt={product.name || "Product Image"}
-          className="h-[180px] sm:h-[290px] w-full object-cover rounded-t-xl"
+          fill
+          className="object-cover rounded-t-xl"
+          sizes="(min-width: 640px) 100vw, 100vw"
+          placeholder="empty" // You can use "blur" if you have blurDataURL
         />
       </div>
 

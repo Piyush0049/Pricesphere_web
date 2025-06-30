@@ -10,7 +10,7 @@ interface VerificationProps {
   setIsVerify: (value: boolean) => void;
 }
 
-const Verify: React.FC<VerificationProps> = ({ isVerify, setIsVerify }) => {
+const Verify: React.FC<VerificationProps> = () => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -75,7 +75,7 @@ const Verify: React.FC<VerificationProps> = ({ isVerify, setIsVerify }) => {
   };
 
   // Handle pasting the entire OTP code at once
-  const handlePaste = (e: ClipboardEvent<HTMLInputElement>, index: number) => {
+  const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData("Text");
     // Remove non-digit characters
@@ -110,7 +110,7 @@ const Verify: React.FC<VerificationProps> = ({ isVerify, setIsVerify }) => {
                   value={digit}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(index, e.target.value)}
                   onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDown(index, e)}
-                  onPaste={(e: ClipboardEvent<HTMLInputElement>) => handlePaste(e, index)}
+                  onPaste={(e: ClipboardEvent<HTMLInputElement>) => handlePaste(e)}
                   maxLength={1}
                   ref={(el) => {
                     if (el) inputRefs.current[index] = el;

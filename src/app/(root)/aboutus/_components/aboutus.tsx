@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Sidebar from "../../../../components/sidebar";
-import { FaTags, FaShoppingCart, FaGift, FaPercent, FaUsers, FaStar, FaHeadset } from "react-icons/fa";
+import { FaShoppingCart, FaGift, FaPercent, FaUsers, FaStar } from "react-icons/fa";
 
 const AboutUsPage: React.FC = () => {
   return (

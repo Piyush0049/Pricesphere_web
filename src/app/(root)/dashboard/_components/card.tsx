@@ -1,4 +1,5 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
+import Image from "next/image";
 
 interface Product {
   image: string;
@@ -14,17 +15,17 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState<number>(() => {
-    return JSON.parse(localStorage.getItem("cardWidth") || "150");
-  });
+  // const [width, setWidth] = useState<number>(() => {
+  //   return JSON.parse(localStorage.getItem("cardWidth") || "150");
+  // });
 
   useEffect(() => {
     if (!cardRef.current) return;
 
     const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         const newWidth = entry.contentRect.width;
-        setWidth(newWidth);
+        // setWidth(newWidth);
         localStorage.setItem("cardWidth", JSON.stringify(newWidth));
       }
     });
@@ -38,10 +39,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700 hover:shadow-orange-400/40 shadow-lg hover:shadow-2xl transform hover:-translate-y-1 sm:hover:-translate-y-2 transition-all duration-300 overflow-hidden rounded-rounded-t-md rounded-sm sm:rounded-xl"
     >
       <div className="relative w-full">
-        <img
+        <Image
           src={product.image}
           alt={product.name || "Product Image"}
-          className="h-[160px] sm:h-[280px] w-full object-cover rounded-t-md sm:rounded-t-xl"
+          fill
+          className="object-cover rounded-t-md sm:rounded-t-xl"
+          sizes="(max-width: 640px) 100vw, 33vw"
+          priority={false}
         />
       </div>
       <div className="px-2 py-2 sm:p-3.5">

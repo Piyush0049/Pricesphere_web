@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState, useRef, useEffect } from "react";
+import React, { FC, useState, useRef } from "react";
 import { FaMicrophone } from "react-icons/fa";
 import axios from "axios";
 import Loader from "./loader";
@@ -19,7 +19,7 @@ const RecordingComponent: FC<RecordingComponentProps> = ({
   setRecording,
   hide = false,
   handleSearch,
-  searchQuery,
+  // searchQuery,
   setSearchQuery,
 }) => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);

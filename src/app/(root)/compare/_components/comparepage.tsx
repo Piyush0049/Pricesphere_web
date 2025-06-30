@@ -6,9 +6,8 @@ import Sidebar from "../../../../components/sidebar";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import Filter from "./filter";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRef } from "react";
-import NoProductsFound from "../../../../components/searchprod";
 import NotFoundComponent from "../../../../components/prodnotfound";
 import ProductCard from "./card";
 import { MdOutlineCompare } from "react-icons/md";
@@ -36,7 +35,6 @@ const ComparePage: React.FC = () => {
   
   // Then use it in the useSelector
   const { company, minPrice, maxPrice, sortBy } = useSelector((state: { filters: FilterState }) => state.filters);
-  const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
   const [fetchedProducts, setFetchedProducts] = useState<Product[] | null>(null);
 
@@ -66,12 +64,12 @@ const ComparePage: React.FC = () => {
     setShowFilters((prev) => !prev);
   };
 
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch({
-      type: 'SET_SORT_BY',
-      payload: e.target.value,
-    });
-  };
+  // const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   dispatch({
+  //     type: 'SET_SORT_BY',
+  //     payload: e.target.value,
+  //   });
+  // };
 
   const filteredProducts = fetchedProducts?.filter(
     (prod) =>
@@ -111,16 +109,16 @@ const ComparePage: React.FC = () => {
   const productsPerPage = 9;
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = sortedProducts?.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  // const currentProducts = sortedProducts?.slice(
+  //   indexOfFirstProduct,
+  //   indexOfLastProduct
+  // );
 
-  const totalPages = Math.ceil(sortedProducts?.length || 0 / productsPerPage);
+  // const totalPages = Math.ceil(sortedProducts?.length || 0 / productsPerPage);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  // const handlePageChange = (page: number) => {
+  //   setCurrentPage(page);
+  // };
 
   return (
     <div className=" min-h-screen flex lg:px-6 xl:px-10 sc:px-28 bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white font-poppins">

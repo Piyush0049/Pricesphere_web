@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import ReactSlider from "react-slider";
 import { X } from "lucide-react";

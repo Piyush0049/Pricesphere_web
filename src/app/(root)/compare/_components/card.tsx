@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface Product {
   image: string;
@@ -10,21 +11,21 @@ interface Product {
 
 interface ProductCardProps {
   product: Product;
-  key: number
 }
 
-
-const ProductCard: React.FC<ProductCardProps> = ({ product ,key }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div
-    key={key}
       className="bg-transparent font-poppins hover:shadow-xl hover:bg-gray-900 hover:-translate-y-2 transform transition-all duration-300 overflow-hidden rounded-lg"
     >
-      <div className="relative w-full">
-        <img
+      <div className="relative w-full h-[200px] sm:h-[280px]">
+        <Image
           src={product.image}
           alt={product.name || "Product Image"}
-          className="h-[200px] sm:h-[280px] w-full object-cover"
+          fill
+          className="object-cover"
+          sizes="(max-width: 640px) 100vw, 33vw"
+          priority={false}
         />
       </div>
 
