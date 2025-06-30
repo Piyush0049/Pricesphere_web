@@ -12,7 +12,8 @@ interface Verification {
   setIsVerify: (value: boolean) => void;
 }
 
-const SignupPage: React.FC<Verification> = ({ isVerify, setIsVerify }) => {
+// Remove the unused variable from props destructuring
+const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

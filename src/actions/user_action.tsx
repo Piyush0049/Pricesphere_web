@@ -1,8 +1,10 @@
 import { getCookie } from "./cookie_actions";
 import apiClient from "@/apiClient/apiClient";
 
-export const joinWaitingList = async (email: string) => {
+// Fix for line 55:41 and 83:40
+// Update the joinWaitingList function to handle errors properly
 
+export const joinWaitingList = async (email: string) => {
   try {
     console.log(process.env.NEXT_PUBLIC_API_BASE_URL, "here is the url");
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/join-waitlist-pricesphere?email=${email}`, {
@@ -14,11 +16,15 @@ export const joinWaitingList = async (email: string) => {
     });
 
     return await response.json();
-  } catch (error) {
-    return error
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { success: false, message: error.message };
+    }
+    return { success: false, message: "An unknown error occurred" };
   }
 };
 
+// Fix for other functions with any types
 export const getUser = async () => {
   const token = await getCookie("token");
   try {

@@ -2,6 +2,7 @@
 import React, { useState, useRef } from "react";
 import toast from "react-hot-toast";
 import { joinWaitingList } from "@/actions/user_action";
+import Image from "next/image"; // Add this import
 
 const PriceSpherePage = () => {
   const [loading, setLoading] = useState(false);
@@ -77,12 +78,27 @@ const PriceSpherePage = () => {
   return (
     <div className="font-poppins min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white flex flex-col items-center justify-center relative overflow-hidden">
       <header className="fixed top-0 z-50 w-full px-3 md:px-5 lg:px-28 py-2 flex justify-between items-center bg-transparent bg-opacity-80 backdrop-filter backdrop-blur-md rounded-b-xl">
+        // Replace the img element with Next.js Image component
         <div className="flex items-center">
-          <img src="/assets/logo.png" alt="PriceSphere Logo" className="h-14" />
+          <Image 
+            src="/assets/logo.png" 
+            alt="PriceSphere Logo" 
+            width={56} 
+            height={56} 
+            className="h-14 w-auto" 
+          />
           <div className="text-lg md:text-xl hidden md:block lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 transition-all">
             PriceSphere
           </div>
         </div>
+        
+        // Fix the unescaped entity
+        <p className="mt-4 mb-10 text-base md:text-lg text-gray-300">
+          Save <span className="text-white font-bold">time</span> and{" "}
+          <span className="text-white font-bold">money</span> with{" "}
+          <span className="text-orange-500 font-bold">PriceSphere</span>&apos;s best
+          deals across the country.
+        </p>
         <button className="bg-transparent text-sm md:text-lg border-2 border-orange-500 lg:text-[17px] text-transparent bg-clip-text block bg-gradient-to-r from-orange-300 to-orange-600 hover:to-orange-600 py-1 lg:py-1 px-3 lg:px-4 rounded-full shadow-lg transition-transform transform hover:scale-105">
           Get Early Access
         </button>

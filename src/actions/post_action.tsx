@@ -1,5 +1,5 @@
 
-export const createPost = async (data: any) => {
+export const createPost = async (data: { title: string; content: string; [key: string]: unknown }) => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/post/create`, {
             method: "POST",
@@ -11,8 +11,11 @@ export const createPost = async (data: any) => {
         });
         const res = await response.json();
         return res;
-    } catch (error: any) {
-        return error.response.data.message
+    } catch (error: unknown) {
+        if (error instanceof Error && 'response' in error) {
+            return (error as any).response.data.message;
+        }
+        return "An unknown error occurred";
     }
 } 
 
@@ -27,7 +30,10 @@ export const getPosts = async (page?: number, limit?: number) => {
         });
         const res = await response.json();
         return res;
-    } catch (error: any) {
-        return error.response.data.message
+    } catch (error: unknown) {
+        if (error instanceof Error && 'response' in error) {
+            return (error as any).response.data.message;
+        }
+        return "An unknown error occurred";
     }
-}   
+}

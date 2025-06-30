@@ -1,4 +1,4 @@
-export const uploadImageToS3 = async (file: any, signedUrl: string) => {
+export const uploadImageToS3 = async (file: File, signedUrl: string) => {
     try {
         const response = await fetch(signedUrl, {
             method: "PUT",

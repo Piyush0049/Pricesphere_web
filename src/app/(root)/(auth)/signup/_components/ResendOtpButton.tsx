@@ -9,10 +9,11 @@ const ResendOtpButton = () => {
   const [isResendingOTP, setIsResendingOTP] = useState(false);
   const [timeLeft, setTimeLeft] = useState(30);
 
+  // Fix for line 24:21
   const resendOTPHandler = async () => {
     setIsResendingOTP(true);
     const email = localStorage.getItem("email");
-
+  
     try {
       const data = await resendOtp(email!);
       if (data.success) {
@@ -21,9 +22,9 @@ const ResendOtpButton = () => {
         toast.error(data.message);
       }
       setTimeLeft(30);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Error re-sending OTP", {
-        description: error?.message,
+        description: error instanceof Error ? error.message : "Unknown error",
       });
     } finally {
       setIsResendingOTP(false);

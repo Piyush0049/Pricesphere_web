@@ -1,6 +1,7 @@
 "use client";
+// Remove the unused import
 import React, { useState } from "react";
-import { FaEye, FaGoogle } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import Image from "next/image";
 import GoogleLoginButton from "@/components/googleloginbutton";
 import { FaEyeSlash } from "react-icons/fa";
