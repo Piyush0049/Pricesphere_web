@@ -8,10 +8,11 @@ import { MdOutlineCompare } from "react-icons/md";
 import { LuLogOut } from "react-icons/lu";
 import { logoutUser } from "@/actions/user_action";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 
 const Sidebar = () => {
-  const logout = (e:any) => {
+  const logout = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     logoutUser()
       .then(() => {
@@ -29,10 +30,13 @@ const Sidebar = () => {
     <>
       <aside className="hidden sm:flex w-[60px] lg:w-64 sticky top-0 lg:rounded-l-xl max-h-screen bg-transparent border-r-[1px] border-gray-700 px-0 pb-6 lg:p-6 flex-col justify-between lg:shadow-lg">
         <div className="flex flex-col items-center">
-          <img
+          <Image
             src="/assets/logo.png"
             alt="PriceSphere Logo"
+            width={130}
+            height={55}
             className="transition-transform transform hover:scale-105 w-[130px] lg:w-24 h-[55px] lg:h-[90px]"
+            priority
           />
           <div className="hidden lg:block text-2xl font-extrabold text-orange-500">PriceSphere</div>
         </div>

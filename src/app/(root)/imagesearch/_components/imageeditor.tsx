@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { FaSearch } from "react-icons/fa";
 import { X } from "lucide-react";
+import Image from "next/image";
 
 interface ImageEditorProps {
   previewSrc: string;
@@ -23,7 +24,7 @@ export function ImageEditor({
   const [brushRadius, setBrushRadius] = useState(4);
   const [hasDrawn, setHasDrawn] = useState(false);
   const canvasRef = useRef<CanvasDraw>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
+  const imgRef = useRef<HTMLDivElement>(null);
   const [imgWidth, setImgWidth] = useState(200);
   const [imgHeight, setImgHeight] = useState(384);
 
@@ -36,15 +37,12 @@ export function ImageEditor({
 
   const handleApplyMask = () => {
     if (!canvasRef.current) return;
-
-    const drawingDataUrl = (canvasRef.current as any).getDataURL("png");
-    console.log(drawingDataUrl);
-
+    const drawingDataUrl = (canvasRef.current as unknown as { getDataURL(format: string): string }).getDataURL("png");
     const offCanvas = document.createElement("canvas");
     const offCtx = offCanvas.getContext("2d");
     if (!offCtx) return;
 
-    const baseImage = new Image();
+    const baseImage = new window.Image() as HTMLImageElement;
     baseImage.crossOrigin = "anonymous";
     baseImage.src = previewSrc;
 
@@ -55,14 +53,11 @@ export function ImageEditor({
       offCanvas.width = naturalWidth;
       offCanvas.height = naturalHeight;
 
-      // Step 1: Fill the canvas with a white background
       offCtx.fillStyle = "white";
       offCtx.fillRect(0, 0, naturalWidth, naturalHeight);
-
-      // Step 2: Draw the base image on top
       offCtx.drawImage(baseImage, 0, 0, naturalWidth, naturalHeight);
 
-      const drawingImage = new Image();
+      const drawingImage = new window.Image() as HTMLImageElement;
       drawingImage.crossOrigin = "anonymous";
       drawingImage.src = drawingDataUrl;
 
@@ -73,11 +68,10 @@ export function ImageEditor({
         const maskCtx = maskCanvas.getContext("2d");
         if (!maskCtx) return;
 
-        // Step 3: Draw the user-drawn mask, scaled to the original image size
         maskCtx.drawImage(
           drawingImage,
-          0, 0, imgWidth, imgHeight,  // Source: Drawn mask area
-          0, 0, naturalWidth, naturalHeight // Destination: Scaled to match image size
+          0, 0, imgWidth, imgHeight,
+          0, 0, naturalWidth, naturalHeight
         );
 
         const imageData = maskCtx.getImageData(0, 0, naturalWidth, naturalHeight);
@@ -85,29 +79,24 @@ export function ImageEditor({
 
         for (let i = 0; i < data.length; i += 4) {
           if (data[i + 3] > 50) {
-            // Keep only the shaded area
-            data[i] = 0; // Black or retain original color
+            data[i] = 0;
             data[i + 1] = 0;
             data[i + 2] = 0;
             data[i + 3] = 255;
           } else {
-            // Make the rest fully transparent
             data[i + 3] = 0;
           }
         }
 
         maskCtx.putImageData(imageData, 0, 0);
 
-        // Step 4: Apply the mask
         offCtx.globalCompositeOperation = "destination-in";
         offCtx.drawImage(maskCanvas, 0, 0, naturalWidth, naturalHeight);
 
-        // Step 5: Reset blend mode & reapply the white background
         offCtx.globalCompositeOperation = "destination-over";
         offCtx.fillStyle = "white";
         offCtx.fillRect(0, 0, naturalWidth, naturalHeight);
 
-        // Step 6: Convert to Blob and store edited image
         offCanvas.toBlob((blob) => {
           if (blob) {
             const editedFile = new File([blob], "edited.png", { type: blob.type });
@@ -127,7 +116,7 @@ export function ImageEditor({
     setHasDrawn(false);
     setEditedUrl("");
     if (canvasRef.current) canvasRef.current.clear();
-    if (handleClear) handleClear(e as any);
+    if (handleClear) handleClear(e as unknown as React.MouseEvent<HTMLButtonElement>);
   };
 
   const handleCancelDrawing = () => {
@@ -140,26 +129,34 @@ export function ImageEditor({
       <h1 className="text-xl md:text-2xl font-bold text-orange-500">Shade the area to refine your search</h1>
       <div className="relative w-full flex justify-center">
         {maskApplied ? (
-          <img
-            src={editedUrl}
-            alt="Edited Preview"
-            className="w-full h-96 object-contain rounded-2xl shadow-md border-2 border-gray-600"
-          />
+          <div className="relative w-[200px] md:w-[250px] h-96 rounded-2xl overflow-hidden border-2 border-gray-600 shadow-md">
+            <Image
+              src={editedUrl}
+              alt="Edited Preview"
+              fill
+              className="object-contain rounded-2xl"
+            />
+          </div>
         ) : (
           <>
-            <img
+            <div
               ref={imgRef}
-              src={previewSrc}
-              alt="Preview"
-              className=" w-[200px] md:w-[250px] object-cover rounded-2xl shadow-md border-2 border-gray-600"
-              onLoad={() => {
-                if (imgRef.current) {
-                  setImgHeight(imgRef.current.clientHeight);
-                    console.log("Container Height (after image load):", imgRef.current.clientHeight);
-                }
-              }}
-            />
-            <div className="absolute inset-0 pointer-events-auto flex justify-center">
+              className="relative w-[200px] md:w-[250px] aspect-[3/5] rounded-2xl overflow-hidden border-2 border-gray-600 shadow-md"
+            >
+              <Image
+                src={previewSrc}
+                alt="Preview"
+                fill
+                className="object-cover rounded-2xl"
+                onLoadingComplete={() => {
+                  if (imgRef.current) {
+                    setImgHeight(imgRef.current.clientHeight);
+                    console.log("Image loaded, height:", imgRef.current.clientHeight);
+                  }
+                }}
+              />
+            </div>
+            <div className="absolute pointer-events-auto flex justify-center items-center" style={{ width: imgWidth, height: imgHeight }}>
               <CanvasDraw
                 ref={canvasRef}
                 brushColor="rgba(255, 165, 0, 0.8)"
@@ -175,12 +172,10 @@ export function ImageEditor({
           </>
         )}
       </div>
+
       {!maskApplied && (
         <div className="w-full flex items-center justify-center gap-2">
-          <label htmlFor="brush-size" className="text-white hidden md:block font-bold">
-            Brush Size:
-          </label>
-          <label htmlFor="brush-size" className="text-white block md:hidden font-bold">
+          <label htmlFor="brush-size" className="text-white font-bold">
             Brush:
           </label>
           <input
@@ -196,43 +191,40 @@ export function ImageEditor({
           <span className="text-white">{brushRadius}</span>
         </div>
       )}
+
       <div className="flex flex-col sm:flex-row gap-4 w-full">
         {!hasDrawn ? (
-          <div className="flex flex-col sm:flex-row gap-4 w-full">
+          <>
             <button
-              className="flex-1 flex items-center text-[15px] md:text-base justify-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg shadow-md transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg shadow-md transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
               onClick={handleSubmit}
             >
               <FaSearch className="w-5 h-5" /> Search
             </button>
             <button
-              className="flex-1 flex items-center text-[15px] md:text-base justify-center gap-2 px-4 py-2 border border-orange-500 text-orange-500 hover:bg-orange-500/10 font-semibold rounded-lg transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-orange-500 text-orange-500 hover:bg-orange-500/10 font-semibold rounded-lg transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
               onClick={(e) => {
                 handleClearMask(e);
-                if (handleClear) handleClear(e as any);
+                if (handleClear) handleClear(e as unknown as React.MouseEvent<HTMLButtonElement>);
               }}
             >
               <X className="w-5 h-5" /> Clear
             </button>
-          </div>
+          </>
         ) : (
           <>
-            {hasDrawn && (
-              <>
-                <button
-                  className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-green-400"
-                  onClick={handleApplyMask}
-                >
-                  Apply
-                </button>
-                <button
-                  className="flex-1 px-4 py-2 border border-gray-400 text-gray-300 hover:bg-gray-500/20 font-semibold rounded-lg transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                  onClick={handleCancelDrawing}
-                >
-                  Cancel
-                </button>
-              </>
-            )}
+            <button
+              className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-green-400"
+              onClick={handleApplyMask}
+            >
+              Apply
+            </button>
+            <button
+              className="flex-1 px-4 py-2 border border-gray-400 text-gray-300 hover:bg-gray-500/20 font-semibold rounded-lg transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+              onClick={handleCancelDrawing}
+            >
+              Cancel
+            </button>
           </>
         )}
       </div>

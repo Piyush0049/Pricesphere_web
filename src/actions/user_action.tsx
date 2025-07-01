@@ -25,7 +25,6 @@ export const joinWaitingList = async (email: string) => {
   }
 };
 
-// Fix for other functions with any types
 export const getUser = async () => {
   const token = await getCookie("token");
   try {
@@ -59,7 +58,6 @@ export const getUser = async () => {
   }
 };
 
-// Fixed any type with proper interface
 interface LoginData {
   email: string;
   password: string;
@@ -92,7 +90,6 @@ export const loginInUser = async (data: LoginData) => {
   }
 };
 
-// Fixed any type with proper interface
 interface SignupData {
   name: string;
   username: string;

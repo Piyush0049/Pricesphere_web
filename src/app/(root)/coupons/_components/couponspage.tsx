@@ -20,8 +20,8 @@ interface ICoupon {
 const CouponsPage: React.FC = () => {
   const [selectedWebsite, setSelectedWebsite] = useState("All");
   const [coupons, setCoupons] = useState<ICoupon[]>([]);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCoupon, setSelectedCoupon] = useState<ICoupon | null>(null);
@@ -29,16 +29,21 @@ const CouponsPage: React.FC = () => {
   const websites = ["All", "Ajio", "Amazon", "Flipkart", "Myntra"];
 
   useEffect(() => {
+    console.log(loading, error);
+  }, [loading, error]);
+
+  useEffect(() => {
     const fetchCoupons = async () => {
-      // setLoading(true);
-      // setError(null);
+      setLoading(true);
+      setError(null);
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/coupons/get`);
         setCoupons(response.data);
       } catch (err) {
-        // setError("Failed to fetch coupons");
+        console.log(err);
+        setError("Failed to fetch coupons");
       } finally {
-        // setLoading(false);
+        setLoading(false);
       }
     };
 
@@ -95,7 +100,7 @@ const CouponsPage: React.FC = () => {
 
         <main className="py-10 px-5 sm:px-6">
           <div className="max-w-7xl mx-auto">
-            <div className={`${filteredCoupons.length>0 ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" : "flex justify-center" }`}>
+            <div className={`${filteredCoupons.length > 0 ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" : "flex justify-center"}`}>
               {filteredCoupons.length > 0 ? (
                 filteredCoupons.map((coupon, index) => (
                   <div

@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
-    domains: ['unsplash.com'], // Add the domain you are using for images
+    domains: ['unsplash.com', 'm.media-amazon.com'], // Add both domains
   },
 };
 

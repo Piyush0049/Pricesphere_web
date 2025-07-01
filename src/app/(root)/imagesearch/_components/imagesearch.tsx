@@ -6,11 +6,18 @@ import axios from "axios";
 import ProductCard from "./card";
 import { FaFilter } from "react-icons/fa";
 import Filter from "./filter";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import NotFoundComponent from "@/components/prodnotfound";
 import ImageUploader from "./upload";
 import LoadingComponent from "@/components/loader";
 import HoveredProductCard from "./hovercard";
+// Or define it inline if not exported from filterSlice
+type FiltersState = {
+  company: string[];
+  minPrice: number;
+  maxPrice: number;
+  sortBy: string;
+};
 
 type Product = {
   name: string;
@@ -27,9 +34,9 @@ type Product = {
 const ImageUploadSearch: React.FC = () => {
   const [mounted, setmounted] = useState(false);
   const [fetchedProducts, setFetchedProducts] = useState<Product[] | null>(null);
-  const [prediction, setPrediction] = useState<string | null>(null);
+  const [prediction] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const { company, minPrice, maxPrice, sortBy } = useSelector((state: any) => state.filters);
+  const { company, minPrice, maxPrice, sortBy } = useSelector((state: { filters: FiltersState }) => state.filters);
   const [hoveredProduct, setHoveredProduct] = useState<Product | null>(null);
 
 
@@ -37,14 +44,14 @@ const ImageUploadSearch: React.FC = () => {
     setLoading(true)
     const formData = new FormData();
     formData.append("image", image);
-    const response = await axios.post(`${process.env.NEXT_PYTHON_API}/api/upload`, formData, {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_PYTHON_API}/api/upload`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
     console.log(response)
     if (response.data.value) {
-      const response2 = await axios.get(`${process.env.NEXT_PYTHON_API}/search`
+      const response2 = await axios.get(`${process.env.NEXT_PUBLIC_PYTHON_API}/search`
         , {
           params: {
             key: response.data.value,

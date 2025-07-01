@@ -22,7 +22,9 @@ export async function POST(req: NextRequest) {
     });
     
     return res;
-  } catch (error: any) {
-    return NextResponse.json({ message: error.message }, { status: error.response?.status || 500 });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStatus = (error as { response?: { status: number } }).response?.status || 500;
+    return NextResponse.json({ message: errorMessage }, { status: errorStatus });
   }
 }

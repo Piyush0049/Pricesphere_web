@@ -29,9 +29,19 @@ const ProductsPage: React.FC = () => {
   const [recording, setRecording] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(true);
+  
+  // With:
   const { company, minPrice, maxPrice, sortBy } = useSelector(
-    (state: any) => state.filters
+    (state: { filters: FiltersState }) => state.filters
   );
+  
+  // Where FiltersState is imported from your filterSlice or defined as:
+  type FiltersState = {
+    company: string[];
+    minPrice: number;
+    maxPrice: number;
+    sortBy: string;
+  };
   const [searchQuery, setSearchQuery] = useState("");
   const [fetchedProducts, setFetchedProducts] = useState<Product[] | null>(
     null
@@ -54,7 +64,7 @@ const ProductsPage: React.FC = () => {
     try {
       setMounted(false);
       setLoading(true);
-      const response = await axios.get(`${process.env.NEXT_PYTHON_API}/search`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_PYTHON_API}/search`, {
         params: { key: cleanedQuery },
       });
       setLoading(false);
@@ -75,7 +85,7 @@ const ProductsPage: React.FC = () => {
     try {
       setMounted(false);
       setLoading(true);
-      const response = await axios.get(`${process.env.NEXT_PYTHON_API}/search`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_PYTHON_API}/search`, {
         params: { key: cleanedQuery },
       });
       setLoading(false);
@@ -126,14 +136,15 @@ const ProductsPage: React.FC = () => {
       <Sidebar />
       <div className="flex-1 flex flex-col pb-4">
         <header className="sm:py-3 px-3 sm:px-6 md:px-7 lg:px-8 sticky bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 top-0 border-b-[1px] border-gray-600 bg-transparent lg:rounded-r-2xl text-white flex items-center justify-between sm:justify-end  z-[100]">
-        <Image
-    src="/assets/logo.png"
-    alt="PriceSphere Logo"
-    fill
-    className="object-contain"
-    sizes="59px"
-    priority={true}
-  />
+          <Image
+            src="/assets/logo.png"
+            alt="PriceSphere Logo"
+            width={56}
+            height={56}
+            className="object-contain"
+            sizes="59px"
+            priority={true}
+          />
           {showFilters && (
             <div ref={filterRef}>
               <Filter onClose={() => setShowFilters(false)} />

@@ -1,11 +1,13 @@
-import { FaSearch } from "react-icons/fa";
+import Image from "next/image";
 
 const SearchProductsPrompt = () => {
   return (
     <div className="flex flex-col items-center justify-center h-64 bg-transparent text-orange-100 py-6 lg:p-6">
-      <img
+      <Image
         src="/assets/logo.png"
         alt="logo"
+        width={96} // w-24 = 96px
+        height={0} // h-auto: maintain aspect ratio; height not strictly needed, set to 0 or leave unset
         className="w-24 h-auto animate-slow-bounce"
       />
       <style jsx>{`

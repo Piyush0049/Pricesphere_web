@@ -1,8 +1,20 @@
 
 import { createSlice } from "@reduxjs/toolkit";
+// Or define it inline
+type Product = {
+  name: string;
+  price: string;
+  image: string;
+  website: string;
+  link: string;
+  category?: string;
+  rating?: string;
+  delivery: string[];
+  noofrate: string;
+};
 
 export interface ProjectProps {
-  projects: any | null;
+  projects: Product[] | null;
 }
 
 const initialState: ProjectProps = {

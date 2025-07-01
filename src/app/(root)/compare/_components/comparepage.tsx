@@ -43,7 +43,7 @@ const ComparePage: React.FC = () => {
     try {
       setmounted(false)
       setloading(true)
-      const response = await axios.get(`${process.env.NEXT_PYTHON_API}/search`
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_PYTHON_API}/search`
         , {
           params: {
             key: searchQuery,
@@ -105,10 +105,10 @@ const ComparePage: React.FC = () => {
   }, []);
 
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 9;
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  // const [currentPage] = useState(1);
+  // const productsPerPage = 9;
+  // const indexOfLastProduct = currentPage * productsPerPage;
+  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   // const currentProducts = sortedProducts?.slice(
   //   indexOfFirstProduct,
   //   indexOfLastProduct

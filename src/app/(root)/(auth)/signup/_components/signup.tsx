@@ -1,11 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Image from "next/image";
 import GoogleLoginButton from "@/components/googleloginbutton";
 import { signUpUser } from "@/actions/user_action";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 interface Verification {
   isVerify: boolean;
@@ -33,8 +32,8 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null); // Move this outside the catch block
   // Keep router for future use or remove if truly unused
-  const router = useRouter();
 
+  useEffect(() => { console.log(error) }, [error]);
 
   const validateUsername = (username: string) => {
     if (!username) {
@@ -80,17 +79,17 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
     event.preventDefault();
     setIsSubmitting(true);
     setError(null); // Reset error state
-    
+
     const usernameValidationError = validateUsername(username);
     const emailValidationError = validateEmail(email);
     const passwordValidationError = validatePassword(password);
     const confirmPasswordValidationError = validateConfirmPassword(confirmPassword);
-    
+
     setUsernameError(usernameValidationError);
     setEmailError(emailValidationError);
     setPasswordError(passwordValidationError);
     setConfirmPasswordError(confirmPasswordValidationError);
-    
+
     if (
       !usernameValidationError &&
       !emailValidationError &&
@@ -99,15 +98,15 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
     ) {
       console.log({ username, email, password });
     }
-    
+
     // Adjust the data structure to match the SignupData interface
-    const data = { 
+    const data = {
       name: username, // Using username as name since name is required in SignupData
-      username, 
-      email, 
-      password 
+      username,
+      email,
+      password
     };
-    
+
     try {
       const responseData = await signUpUser(data) as SignupResponse;
       if (responseData.success) {

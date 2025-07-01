@@ -1,11 +1,12 @@
 "use client";
 import React, { useState, useRef, useCallback, MouseEvent } from "react";
 import { useDropzone } from "react-dropzone";
-import { FaCamera, FaSearch } from "react-icons/fa";
+import { FaCamera } from "react-icons/fa";
 import { TbCapture } from "react-icons/tb";
 import { X, UploadCloud } from "lucide-react";
 import { ImageEditor } from "./imageeditor";
 import { FaQuestion } from "react-icons/fa";
+import Image from "next/image";
 
 interface ImageUploaderProps {
     onSearch: (image: File) => void;
@@ -124,10 +125,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                         onClick={() => setIsExpanded(true)}
                         className="cursor-pointer transform transition-transform duration-300 hover:scale-110"
                     >
-                        <img
+                        <Image
                             src={previewSrc}
                             alt="Preview Icon"
-                            className="object-cover w-16 h-16 rounded-full border-2 border-gray-600 shadow-md"
+                            width={64}
+                            height={64}
+                            className="rounded-full border-2 border-gray-600 shadow-md object-cover"
                         />
                     </div>
                 </div>
@@ -141,11 +144,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                     />
                     <div className="relative bg-gray-800 p-9 rounded-3xl shadow-xl z-10 transform transition-all duration-300 w-full max-w-2xl">
                         <div className="relative">
-                            <img
+                            <Image
                                 src={previewSrc}
                                 alt="Preview"
-                                className="w-full h-96 object-contain rounded-2xl shadow-md border-2 border-gray-600"
-                            />
+                                className="w-full h-96 object-contain rounded-2xl shadow-md border-2 border-gray-600" />
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 mt-5">
                             <button
@@ -258,7 +260,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
             {(selectedFile || capturedImage) && !mount && (
 
-                <ImageEditor previewSrc={previewSrc} handleSubmit={handleSubmit} handleClear={handleClear}  setSelectedFile={setSelectedFile} />
+                <ImageEditor previewSrc={previewSrc} handleSubmit={handleSubmit} handleClear={handleClear} setSelectedFile={setSelectedFile} />
 
 
                 // <div className="w-full max-w-[600px] mt-10 flex flex-col items-center gap-6 p-6 border border-gray-700 rounded-3xl bg-gray-800/80 text-center shadow-2xl">

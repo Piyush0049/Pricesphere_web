@@ -4,14 +4,16 @@ import { resendOtp } from "@/actions/user_action";
 import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { UserDataProps } from "@/types";
 
 // Define the expected response type from resendOtp
+// Replace the OtpResponse interface with:
 interface OtpResponse {
-  success?: boolean;
-  message?: string;
+  success: boolean;
+  message: string;
   error?: string;
-  user?: any;
-  token?: string;
+  user: UserDataProps;
+  token: string;
 }
 
 const ResendOtpButton = () => {

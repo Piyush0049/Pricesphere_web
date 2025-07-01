@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { AxiosError } from 'axios';
 
 import apiClient from '@/apiClient/apiClient';
 
 export async function POST(req: NextRequest) {
   try {
-
     const body = await req.json();
 
     const response = await apiClient.post('/api/google/auth', body);
@@ -21,7 +21,12 @@ export async function POST(req: NextRequest) {
     });    
     
     return res;
-  } catch (error: any) {
-    return NextResponse.json({ message: error.message }, { status: error.response?.status || 500 });
+  } catch (error) {
+    const axiosError = error as AxiosError;
+
+    return NextResponse.json(
+      { message: axiosError.message },
+      { status: axiosError.response?.status || 500 }
+    );
   }
 }

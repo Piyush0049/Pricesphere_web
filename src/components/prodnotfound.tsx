@@ -8,7 +8,7 @@ const NotFoundComponent = () => {
                 No Products Found
             </h2>
             <p className="text-xs sm:text-sm mt-3 text-gray-400 text-center">
-                We couldn't find any products matching your search criteria. Try adjusting the filters or search terms.
+                {"We couldn't find any products matching your search criteria. Try adjusting the filters or search terms."}
             </p>
         </div>
     );

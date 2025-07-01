@@ -1,8 +1,20 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
+type Product = {
+  name: string;
+  price: string;
+  image: string;
+  website: string;
+  link: string;
+  category?: string;
+  rating?: string;
+  delivery: string[];
+  noofrate: string;
+};
+
 export interface PostProps {
-  posts: any | null;
+  posts: Product[] | null;
 }
 
 const initialState: PostProps = {
@@ -10,7 +22,7 @@ const initialState: PostProps = {
 };
 
 export const postSlice = createSlice({
-  name: "posts",     
+  name: "posts",
   initialState,
   reducers: {
     postsData: (state, action) => {
