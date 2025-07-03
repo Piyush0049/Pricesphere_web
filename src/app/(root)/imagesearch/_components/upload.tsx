@@ -143,12 +143,15 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                         onClick={() => setIsExpanded(false)}
                     />
                     <div className="relative bg-gray-800 p-9 rounded-3xl shadow-xl z-10 transform transition-all duration-300 w-full max-w-2xl">
-                        <div className="relative">
+                        <div className="relative w-full h-96 sm:h-[400px] md:h-[500px] lg:h-[600px]">
                             <Image
                                 src={previewSrc}
+                                fill
                                 alt="Preview"
-                                className="w-full h-96 object-contain rounded-2xl shadow-md border-2 border-gray-600" />
+                                className="object-contain rounded-2xl shadow-md border-2 border-gray-600"
+                            />
                         </div>
+
                         <div className="flex flex-col sm:flex-row gap-4 mt-5">
                             <button
                                 className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"

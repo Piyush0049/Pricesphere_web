@@ -1,7 +1,7 @@
 "use client";
 import LoadingComponent from "../../../../components/loader";
 import React, { useState, useEffect, useRef } from "react";
-import { FaSearch, FaFilter } from "react-icons/fa";
+import { FaSearch, FaFilter, FaSpinner } from "react-icons/fa";
 import Sidebar from "../../../../components/sidebar";
 import axios from "axios";
 import Filter from "./filter";
@@ -30,11 +30,20 @@ const ProductsPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(true);
   
+  // Add loading states for each website
+  const [loadingAmazon, setLoadingAmazon] = useState(false);
+  const [loadingFlipkart, setLoadingFlipkart] = useState(false);
+  const [loadingAjio, setLoadingAjio] = useState(false);
+  const [loadingMyntra, setLoadingMyntra] = useState(false);
+  
+  // Track which websites have been searched
+  const [searchedWebsites, setSearchedWebsites] = useState<string[]>([]);
+
   // With:
   const { company, minPrice, maxPrice, sortBy } = useSelector(
     (state: { filters: FiltersState }) => state.filters
   );
-  
+
   // Where FiltersState is imported from your filterSlice or defined as:
   type FiltersState = {
     company: string[];
@@ -56,24 +65,73 @@ const ProductsPage: React.FC = () => {
 
   const handleTypeSearch = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const cleanedQuery = cleanQuery(searchQuery);
     if (!cleanedQuery) {
       console.error("No keyword added to search");
       return;
     }
-    try {
-      setMounted(false);
-      setLoading(true);
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_PYTHON_API}/search`, {
-        params: { key: cleanedQuery },
-      });
-      setLoading(false);
-      console.log(response);
-      setFetchedProducts(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+
+    setFetchedProducts(null); // clear previous results
+    setLoading(true);
+    setMounted(false);
+    
+    // Reset all website loading states
+    setLoadingAmazon(true);
+    setLoadingFlipkart(true);
+    setLoadingAjio(true);
+    setLoadingMyntra(true);
+    setSearchedWebsites(["amazon", "flipkart", "ajio", "myntra"]);
+
+    const endpoints = ["amazon", "flipkart", "ajio", "myntra"];
+    const baseURL = process.env.NEXT_PUBLIC_PYTHON_API;
+
+    endpoints.forEach(async (source) => {
+      try {
+        const response = await axios.get(`${baseURL}/search/${source}`, {
+          params: { key: cleanedQuery },
+        });
+
+        if (response.data && Array.isArray(response.data)) {
+          setFetchedProducts((prev) => (prev ? [...prev, ...response.data] : response.data));
+        }
+        
+        // Set loading state for the specific website to false
+        switch(source) {
+          case "amazon":
+            setLoadingAmazon(false);
+            break;
+          case "flipkart":
+            setLoadingFlipkart(false);
+            break;
+          case "ajio":
+            setLoadingAjio(false);
+            break;
+          case "myntra":
+            setLoadingMyntra(false);
+            break;
+        }
+      } catch (err) {
+        console.error(`Failed fetching ${source}`, err);
+        switch(source) {
+          case "amazon":
+            setLoadingAmazon(false);
+            break;
+          case "flipkart":
+            setLoadingFlipkart(false);
+            break;
+          case "ajio":
+            setLoadingAjio(false);
+            break;
+          case "myntra":
+            setLoadingMyntra(false);
+            break;
+        }
+      }
+    });
+    setLoading(false);
   };
+
 
   const handleVoiceSearch = async (e: React.FormEvent, voiceQuery: string) => {
     e.preventDefault();
@@ -82,18 +140,69 @@ const ProductsPage: React.FC = () => {
       console.error("No keyword added to search");
       return;
     }
-    try {
-      setMounted(false);
-      setLoading(true);
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_PYTHON_API}/search`, {
-        params: { key: cleanedQuery },
-      });
-      setLoading(false);
-      console.log(response);
-      setFetchedProducts(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    
+    setFetchedProducts(null); // clear previous results
+    setLoading(true);
+    setMounted(false);
+    
+    // Reset all website loading states
+    setLoadingAmazon(true);
+    setLoadingFlipkart(true);
+    setLoadingAjio(true);
+    setLoadingMyntra(true);
+    setSearchedWebsites(["amazon", "flipkart", "ajio", "myntra"]);
+
+    const endpoints = ["amazon", "flipkart", "ajio", "myntra"];
+    const baseURL = process.env.NEXT_PUBLIC_PYTHON_API;
+
+    endpoints.forEach(async (source) => {
+      try {
+        const response = await axios.get(`${baseURL}/search/${source}`, {
+          params: { key: cleanedQuery },
+        });
+
+        if (response.data && Array.isArray(response.data)) {
+          setFetchedProducts((prev) => (prev ? [...prev, ...response.data] : response.data));
+        }
+        
+        // Set loading state for the specific website to false
+        switch(source) {
+          case "amazon":
+            setLoadingAmazon(false);
+            break;
+          case "flipkart":
+            setLoadingFlipkart(false);
+            break;
+          case "ajio":
+            setLoadingAjio(false);
+            break;
+          case "myntra":
+            setLoadingMyntra(false);
+            break;
+        }
+      } catch (err) {
+        console.error(`Failed fetching ${source}`, err);
+        // Set loading state for the specific website to false even on error
+        switch(source) {
+          case "amazon":
+            setLoadingAmazon(false);
+            break;
+          case "flipkart":
+            setLoadingFlipkart(false);
+            break;
+          case "ajio":
+            setLoadingAjio(false);
+            break;
+          case "myntra":
+            setLoadingMyntra(false);
+            break;
+        }
+      }
+    });
+    
+    // Main loading state will be set to false after all requests are initiated
+    // Individual website loaders will show progress
+    setLoading(false);
   };
 
   const toggleFilters = () => {
@@ -126,10 +235,7 @@ const ProductsPage: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const productsPerPage = 9;
-  // const indexOfLastProduct = currentPage * productsPerPage;
-  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const isAnyWebsiteLoading = loadingAmazon || loadingFlipkart || loadingAjio || loadingMyntra;
 
   return (
     <div className="min-h-screen flex lg:px-6 xl:px-10 sc:px-28 bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white font-poppins relative">
@@ -201,12 +307,50 @@ const ProductsPage: React.FC = () => {
                 </div>
               ))}
             </div>
-          ) : !loading && !mounted ? (
+          ) : !loading && !mounted && !isAnyWebsiteLoading ? (
             <NotFoundComponent />
           ) : loading && !mounted ? (
             <LoadingComponent />
           ) : (
             <NoProductsFound />
+          )}
+          
+          {/* Website-specific loaders */}
+          {!mounted && isAnyWebsiteLoading && searchedWebsites.length > 0 && (
+            <div className="mt-8 border-t border-gray-700 pt-6">
+              <h3 className="text-lg sm:text-xl font-semibold text-center mb-4 text-gray-200">
+                Fetching products from multiple websites
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                {loadingAmazon && searchedWebsites.includes("amazon") && (
+                  <div className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700 rounded-lg p-3 sm:p-4 flex flex-col items-center justify-center">
+                    <FaSpinner className="text-xl sm:text-2xl mb-2 text-orange-500 animate-spin" />
+                    <p className="text-xs sm:text-sm font-medium text-gray-300">Amazon</p>
+                  </div>
+                )}
+                {loadingFlipkart && searchedWebsites.includes("flipkart") && (
+                  <div className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700 rounded-lg p-3 sm:p-4 flex flex-col items-center justify-center">
+                    <FaSpinner className="text-xl sm:text-2xl mb-2 text-orange-500 animate-spin" />
+                    <p className="text-xs sm:text-sm font-medium text-gray-300">Flipkart</p>
+                  </div>
+                )}
+                {loadingAjio && searchedWebsites.includes("ajio") && (
+                  <div className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700 rounded-lg p-3 sm:p-4 flex flex-col items-center justify-center">
+                    <FaSpinner className="text-xl sm:text-2xl mb-2 text-orange-500 animate-spin" />
+                    <p className="text-xs sm:text-sm font-medium text-gray-300">Ajio</p>
+                  </div>
+                )}
+                {loadingMyntra && searchedWebsites.includes("myntra") && (
+                  <div className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700 rounded-lg p-3 sm:p-4 flex flex-col items-center justify-center">
+                    <FaSpinner className="text-xl sm:text-2xl mb-2 text-orange-500 animate-spin" />
+                    <p className="text-xs sm:text-sm font-medium text-gray-300">Myntra</p>
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-center mt-3 text-gray-400">
+                Some results may already be displayed while others are still loading
+              </p>
+            </div>
           )}
         </main>
       </div>

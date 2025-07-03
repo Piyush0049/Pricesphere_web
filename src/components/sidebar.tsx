@@ -60,12 +60,12 @@ const Sidebar = () => {
             <span className="text-xl lg:text-lg lg:mr-3"><RiDiscountPercentFill /></span>
             <span className='hidden lg:block'>Coupons</span>
           </div>
-          <div
+          {/* <div
             onClick={() => { router.push("/compare") }}
             className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base ${pathname === '/compare' ? 'text-orange-500 lg:bg-gray-800' : 'text-gray-400 hover:text-orange-400 hover:bg-gray-700'} lg:px-3 py-2 rounded transition`}>
             <span className="text-xl lg:text-lg lg:mr-3"><MdOutlineCompare /></span>
             <span className='hidden lg:block'>Compare</span>
-          </div>
+          </div> */}
           <div
             onClick={() => { router.push("/aboutus") }}
             className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base ${pathname === '/aboutus' ? 'text-orange-500 lg:bg-gray-800' : 'text-gray-400 hover:text-orange-400 hover:bg-gray-700'} lg:px-3 py-2 rounded transition`}>
@@ -91,9 +91,9 @@ const Sidebar = () => {
         <div onClick={() => { router.push("/coupons") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/coupons' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
           <RiDiscountPercentFill size={20} />
         </div>
-        <div onClick={() => { router.push("/compare") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/compare' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
+        {/* <div onClick={() => { router.push("/compare") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/compare' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
           <MdOutlineCompare size={20} />
-        </div>
+        </div> */}
         <div onClick={() => { router.push("/aboutus") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/aboutus' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
           <FaInfoCircle size={20} />
         </div>
