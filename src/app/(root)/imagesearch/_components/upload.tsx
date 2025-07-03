@@ -3,7 +3,7 @@ import React, { useState, useRef, useCallback, MouseEvent } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaCamera } from "react-icons/fa";
 import { TbCapture } from "react-icons/tb";
-import { X, UploadCloud } from "lucide-react";
+import { X, UploadCloud, FlipHorizontal } from "lucide-react";
 import { ImageEditor } from "./imageeditor";
 import { FaQuestion } from "react-icons/fa";
 import Image from "next/image";
@@ -26,6 +26,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [facingMode, setFacingMode] = useState<"user" | "environment">("user");
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles && acceptedFiles.length > 0) {
@@ -41,10 +42,21 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         multiple: false,
     });
 
-    const openCamera = async () => {
+    const openCamera = async (mode: "user" | "environment" = facingMode) => {
         setIsCameraOpen(true);
+        setFacingMode(mode);
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            // Stop any existing stream first
+            if (videoRef.current && videoRef.current.srcObject) {
+                const stream = videoRef.current.srcObject as MediaStream;
+                stream.getTracks().forEach((track) => track.stop());
+            }
+            
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { 
+                    facingMode: mode 
+                } 
+            });
             if (videoRef.current) {
                 videoRef.current.srcObject = stream;
             }
@@ -52,6 +64,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
             console.error("Error accessing camera:", err);
             setError("Error accessing camera");
         }
+    };
+
+    const switchCamera = async () => {
+        const newMode = facingMode === "user" ? "environment" : "user";
+        await openCamera(newMode);
     };
 
     const capturePhoto = () => {
@@ -63,8 +80,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
             const context = canvas.getContext("2d");
 
             if (context) {
-                context.translate(canvas.width, 0);
-                context.scale(-1, 1);
+                // Only flip horizontally if using front camera
+                if (facingMode === "user") {
+                    context.translate(canvas.width, 0);
+                    context.scale(-1, 1);
+                }
 
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
                 context.setTransform(1, 0, 0, 1, 0, 0);
@@ -223,11 +243,18 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                         <hr className="border-b-[1px] border-gray-700 w-full bg-orange-500" />
 
                     </div>
-                    <button
-                        className="flex items-center gap-2 px-[16px] py-[9px] bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-700 border-[1px] border-gray-100 text-white font-[520] rounded-3xl shadow-md transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                        onClick={openCamera}>
-                        <FaCamera className="w-[18px] h-[18px] md:w-5 md:h-5" /> <span className="text-sm md:text-[16px]">Capture Photo</span>
-                    </button>
+                    <div className="flex gap-4">
+                        <button
+                            className="flex items-center gap-2 px-[16px] py-[9px] bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-700 border-[1px] border-gray-100 text-white font-[520] rounded-3xl shadow-md transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                            onClick={() => openCamera("user")}>
+                            <FaCamera className="w-[18px] h-[18px] md:w-5 md:h-5" /> <span className="text-sm md:text-[16px]">Front Camera</span>
+                        </button>
+                        <button
+                            className="flex items-center gap-2 px-[16px] py-[9px] bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-700 border-[1px] border-gray-100 text-white font-[520] rounded-3xl shadow-md transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                            onClick={() => openCamera("environment")}>
+                            <FaCamera className="w-[18px] h-[18px] md:w-5 md:h-5" /> <span className="text-sm md:text-[16px]">Back Camera</span>
+                        </button>
+                    </div>
                 </div>
             )}
             {isCameraOpen && (
@@ -235,14 +262,19 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                     <video
                         ref={videoRef}
                         autoPlay
-                        className="w-full rounded-xl shadow-md border-2 border-gray-700 transform scale-x-[-1]"
+                        className={`w-full rounded-xl shadow-md border-2 border-gray-700 ${facingMode === "user" ? "transform scale-x-[-1]" : ""}`}
                     />
 
-                    <div className="flex items-center gap-6 mt-6">
+                    <div className="flex items-center gap-4 mt-6 flex-wrap justify-center">
                         <button
                             className="flex items-center gap-2 px-[16px] py-[9px] bg-gradient-to-r rounded-3xl from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 border-[1px] border-gray-100 text-white font-semibold shadow-md transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
                             onClick={capturePhoto}>
                             <TbCapture className="w-6 h-6" /> Capture
+                        </button>
+                        <button
+                            className="flex items-center gap-2 px-[16px] py-[9px] bg-blue-600 hover:bg-blue-700 rounded-3xl border-[1px] border-gray-100 text-white font-semibold shadow-md transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            onClick={switchCamera}>
+                            <FlipHorizontal className="w-5 h-5" /> Switch Camera
                         </button>
                         <button
                             className="flex items-center gap-2 px-[16px] py-[9px] bg-gray-700 hover:bg-gray-600 rounded-3xl border-[1px] border-gray-100 text-white font-semibold shadow-md transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
@@ -260,33 +292,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                     <canvas ref={canvasRef} style={{ display: "none" }} />
                 </div>
             )}
-
             {(selectedFile || capturedImage) && !mount && (
-
                 <ImageEditor previewSrc={previewSrc} handleSubmit={handleSubmit} handleClear={handleClear} setSelectedFile={setSelectedFile} />
-
-
-                // <div className="w-full max-w-[600px] mt-10 flex flex-col items-center gap-6 p-6 border border-gray-700 rounded-3xl bg-gray-800/80 text-center shadow-2xl">
-                //     <img
-                //         src={previewSrc}
-                //         alt="Preview"
-                //         className="w-full h-96 object-cover rounded-2xl shadow-md border-2 border-gray-600"
-                //     />
-                //     <div className="flex flex-col sm:flex-row gap-4 w-full">
-                //         <button
-                //             className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg shadow-md transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                //             onClick={handleSubmit}
-                //         >
-                //             <FaSearch className="w-5 h-5" /> Search
-                //         </button>
-                //         <button
-                //             className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-orange-500 text-orange-500 hover:bg-orange-500/10 font-semibold rounded-lg transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                //             onClick={handleClear}
-                //         >
-                //             <X className="w-5 h-5" /> Clear
-                //         </button>
-                //     </div>
-                // </div>
             )}
             {error && <div className="mt-4 text-red-500 font-medium">{error}</div>}
         </div>
