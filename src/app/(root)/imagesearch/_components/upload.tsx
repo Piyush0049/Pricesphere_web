@@ -5,7 +5,6 @@ import { FaCamera } from "react-icons/fa";
 import { TbCapture } from "react-icons/tb";
 import { X, UploadCloud, FlipHorizontal } from "lucide-react";
 import { ImageEditor } from "./imageeditor";
-import { FaQuestion } from "react-icons/fa";
 import Image from "next/image";
 
 interface ImageUploaderProps {
@@ -51,11 +50,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                 const stream = videoRef.current.srcObject as MediaStream;
                 stream.getTracks().forEach((track) => track.stop());
             }
-            
-            const stream = await navigator.mediaDevices.getUserMedia({ 
-                video: { 
-                    facingMode: mode 
-                } 
+
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: mode
+                }
             });
             if (videoRef.current) {
                 videoRef.current.srcObject = stream;
@@ -140,20 +139,23 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     if (mount && previewSrc) {
         if (!isExpanded) {
             return (
-                <div className="fixed bottom-4 right-4 z-50">
+                <div className="fixed bottom-16 sm:bottom-4 right-4 z-50">
                     <div
                         onClick={() => setIsExpanded(true)}
                         className="cursor-pointer transform transition-transform duration-300 hover:scale-110"
                     >
-                        <Image
-                            src={previewSrc}
-                            alt="Preview Icon"
-                            width={64}
-                            height={64}
-                            className="rounded-full border-2 border-gray-600 shadow-md object-cover"
-                        />
+                        <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-600 shadow-md">
+                            <Image
+                                src={previewSrc}
+                                alt="Preview Icon"
+                                width={80}
+                                height={80}
+                                className="object-cover w-full h-full"
+                            />
+                        </div>
                     </div>
                 </div>
+
             );
         } else {
             return (
@@ -173,12 +175,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4 mt-5">
-                            <button
-                                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                                onClick={handleSubmit}
-                            >
-                                <FaQuestion className="w-4 h-4" /> Unexpected Result
-                            </button>
                             <button
                                 className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-orange-500 text-orange-500 hover:bg-orange-500/10 font-semibold rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
                                 onClick={handleClear}

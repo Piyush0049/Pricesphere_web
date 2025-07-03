@@ -80,7 +80,7 @@ const Sidebar = () => {
         </nav>
       </aside>
 
-      <div className="flex sm:hidden fixed bottom-0 left-0 w-full z-[1000000] border-t-[1px] border-gray-500 bg-gray-900 justify-around items-center py-[13px] shadow-lg">
+      <div className="flex sm:hidden fixed bottom-0 left-0 w-full z-[1000000] border-t-[1px] border-gray-500 bg-gray-900 justify-around items-center py-[15px] shadow-lg">
         <div onClick={() => { router.push("/dashboard") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/dashboard' ? 'text-orange-600' : 'text-white hover:text-orange-500'}   transition`}>
           <FaHome size={20} />
         </div>

@@ -195,7 +195,7 @@ const ImageUploadSearch: React.FC = () => {
     <div className="min-h-screen flex font-poppins lg:px-8 xl:px-12 sc:px-28 bg-gradient-to-br from-gray-900 via-gray-900 to-black text-white">
       <Sidebar />
       <div className="flex-1 flex flex-col pb-4">
-        <header className="py-3 lg:py-5 px-3 sm:px-6 md:px-7 lg:px-8 sticky top-0  border-b-[1px] border-gray-600 bg-transparent lg:rounded-r-2xl text-white flex items-center justify-between z-[100] backdrop-blur">
+        <header className="py-4 lg:py-5 px-3 sm:px-6 md:px-7 lg:px-8 sticky top-0  border-b-[1px] border-gray-600 bg-transparent lg:rounded-r-2xl text-white flex items-center justify-between z-[100] backdrop-blur">
           <div className="text-[20px] sm:text-[22px] flex font-semibold text-orange-500 items-center gap-2">
             <MdImageSearch className="w-6 h-6" />
             <span className="hidden sm:block">Image Search</span>
@@ -240,7 +240,6 @@ const ImageUploadSearch: React.FC = () => {
               <div><NotFoundComponent /></div>
             ))}
             
-            {/* Website-specific loaders */}
             {mounted && isAnyWebsiteLoading && searchedWebsites.length > 0 && (
               <div className="mt-8 border-t border-gray-700 pt-6">
                 <h3 className="text-lg sm:text-xl font-semibold text-center mb-4 text-gray-200">
