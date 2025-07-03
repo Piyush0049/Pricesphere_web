@@ -4,7 +4,6 @@ import { FaHome, FaInfoCircle } from 'react-icons/fa';
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { usePathname } from 'next/navigation';
 import { MdImageSearch } from "react-icons/md";
-import { MdOutlineCompare } from "react-icons/md";
 import { LuLogOut } from "react-icons/lu";
 import { logoutUser } from "@/actions/user_action";
 import toast from "react-hot-toast";
