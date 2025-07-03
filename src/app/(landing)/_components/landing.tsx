@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
-import toast from "react-hot-toast";
 import Image from "next/image";
 import Link from "next/link";
-import { FaSearch, FaShoppingCart, FaTag, FaMobileAlt } from "react-icons/fa";
 
 const PriceSpherePage = () => {
   return (
