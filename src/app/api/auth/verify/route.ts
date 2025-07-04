@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   try {
     console.log("sknom");
 
-    const email = req.cookies.get('email')?.value; // Assuming email is stored in cookies
+    const email = req.cookies.get('email')?.value;
 
     const body = await req.json();
 
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     res.cookies.set('token', token, {
       httpOnly: true,
       path: '/',
-      domain: process.env.NODE_ENV === 'production' ? 'pricesphere.vercel.app' : 'localhost',
+      //domain: process.env.NODE_ENV === 'production' ? 'pricesphere.vercel.app' : 'localhost',
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       expires: new Date('9999-12-31T23:59:59Z')

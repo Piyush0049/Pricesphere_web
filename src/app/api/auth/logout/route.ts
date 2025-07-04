@@ -7,7 +7,7 @@ export async function GET() {
     res.cookies.set('token', '', {
       httpOnly: true,
       path: '/',
-      domain: process.env.NODE_ENV === 'production' ? 'pricesphere.vercel.app' : 'localhost',
+      //domain: process.env.NODE_ENV === 'production' ? 'pricesphere.vercel.app' : 'localhost',
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       expires: new Date(0),
