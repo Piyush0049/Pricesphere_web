@@ -11,13 +11,12 @@ interface Verification {
   setIsVerify: (value: boolean) => void;
 }
 
-// Define the response type for signUpUser
+
 interface SignupResponse {
   success: boolean;
   message: string;
 }
 
-// Remove the unused variable from props destructuring
 const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -30,8 +29,7 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null); // Move this outside the catch block
-  // Keep router for future use or remove if truly unused
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => { console.log(error) }, [error]);
 
@@ -69,6 +67,7 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
     if (!confirmPassword) {
       return "Required";
     } else if (confirmPassword !== password) {
+      console.log(confirmPassword, password);
       return "Passwords do not match";
     }
     return "";
@@ -78,7 +77,7 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitting(true);
-    setError(null); // Reset error state
+    setError(null);
 
     const usernameValidationError = validateUsername(username);
     const emailValidationError = validateEmail(email);
@@ -99,12 +98,12 @@ const SignupPage: React.FC<Verification> = ({ setIsVerify }) => {
       console.log({ username, email, password });
     }
 
-    // Adjust the data structure to match the SignupData interface
     const data = {
-      name: username, // Using username as name since name is required in SignupData
+      name: username,
       username,
       email,
-      password
+      password,
+      confirmPassword
     };
 
     try {
