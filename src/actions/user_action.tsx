@@ -1,7 +1,7 @@
 import { getCookie } from "./cookie_actions";
 import apiClient from "@/apiClient/apiClient";
 import { UserDataProps } from "@/types";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 // ----------------------------
 // Join Waiting List
