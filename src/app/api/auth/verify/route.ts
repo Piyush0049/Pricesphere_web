@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     console.log("sknom");
 
     const email = req.cookies.get('email')?.value;
-
+    console.log(email, "email from cookies");
     const body = await req.json();
 
     if (!email) {

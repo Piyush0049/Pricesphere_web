@@ -16,74 +16,61 @@ const Verify: React.FC<VerificationProps> = () => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const router = useRouter();
 
-  // Function to verify the OTP
   const verifyOTP = async (otpValue: string[]) => {
-    // Prevent multiple submissions
     if (isVerifying) return;
     setIsVerifying(true);
     const otpString = otpValue.join("");
     let isSuccess = false;
     try {
-      const response = await axios.post(
-        "/api/auth/verify",
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/verification`,
         { otp: otpString },
         { withCredentials: true }
       );
       console.log("OTP verification response:", response);
 
-      // If verification is successful, wait briefly before redirecting
       isSuccess = true;
       setTimeout(() => {
         router.push("/dashboard");
       }, 1500);
     } catch (error) {
       console.error("Error verifying OTP:", error);
-      // Optionally, you can display an error message here.
     } finally {
-      // Only remove the verifying state if verification was not successful.
       if (!isSuccess) {
         setIsVerifying(false);
       }
     }
   };
 
-  // Handle manual input changes
+  
   const handleChange = (index: number, value: string) => {
-    // Only allow numeric values and one character max
     if (!isNaN(Number(value)) && value.length <= 1) {
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
 
-      // Focus next input automatically if a digit is entered
       if (value && index < otp.length - 1) {
         inputRefs.current[index + 1]?.focus();
       }
 
-      // If all inputs are filled, attempt verification automatically
       if (newOtp.every((digit) => digit !== "")) {
         verifyOTP(newOtp);
       }
     }
   };
 
-  // Handle backspace to move focus to the previous input when empty
   const handleKeyDown = (index: number, event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
   };
 
-  // Handle pasting the entire OTP code at once
   const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData("Text");
-    // Remove non-digit characters
     const digits = pastedData.replace(/\D/g, "");
     if (digits.length === otp.length) {
       const otpArray = digits.split("");
       setOtp(otpArray);
-      // Focus the last input and trigger verification
       inputRefs.current[otp.length - 1]?.focus();
       verifyOTP(otpArray);
     }
@@ -92,9 +79,8 @@ const Verify: React.FC<VerificationProps> = () => {
   return (
     <>
       <div
-        className={`min-h-screen flex font-poppins justify-center items-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white ${
-          isVerifying ? "filter blur-sm" : ""
-        }`}
+        className={`min-h-screen flex font-poppins justify-center items-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white ${isVerifying ? "filter blur-sm" : ""
+          }`}
       >
         <div className="bg-gray-950 p-10 rounded-lg shadow-lg flex flex-col items-center">
           <h2 className="mb-5 text-xl font-bold text-orange-400">Enter OTP</h2>
