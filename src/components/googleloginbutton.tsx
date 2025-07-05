@@ -25,7 +25,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ className = "", t
       setIsLoading(true);
       try {
         const res = await axios.post(
-          "/api/google/auth",
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/google/auth`,
           {
             access_token: credentialResponse.access_token,
           },
