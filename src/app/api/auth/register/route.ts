@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       path: '/',
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-      domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : 'localhost',
+      // domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : 'localhost',
       maxAge: 10 * 60, // 10 minutes
     });
 

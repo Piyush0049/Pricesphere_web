@@ -59,9 +59,9 @@ export async function POST(request: NextRequest) {
     );
 
     const isProduction = process.env.NODE_ENV === 'production';
-    const domain = isProduction
-      ? process.env.COOKIE_DOMAIN!    // e.g. ".yourapp.com"
-      : 'localhost';
+    // const domain = isProduction
+    //   ? process.env.COOKIE_DOMAIN!    // e.g. ".yourapp.com"
+    //   : 'localhost';
 
     // Build safe user object
     const safeUser = {
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
       sameSite: isProduction ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60,
       path: '/',
-      domain,
+      // domain,
     });
 
     // Send welcome email

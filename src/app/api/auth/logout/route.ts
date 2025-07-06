@@ -10,7 +10,7 @@ export async function DELETE() {
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     expires: new Date(0), // Invalidate the cookie
     path: '/',
-    domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : 'localhost',
+    // domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : 'localhost',
   });
 
   const response = new NextResponse(

@@ -21,7 +21,7 @@ export const setCookie = ({ user, response, message, statusCode }: SetCookiePara
     httpOnly: true,
     secure: isProduction,
     path: '/',
-    domain: isProduction ? '.vercel.app' : 'localhost',
+    // domain: isProduction ? '.vercel.app' : 'localhost',
     sameSite: isProduction ? 'none' : 'lax',
     maxAge: 7 * 24 * 60 * 60,
   });
