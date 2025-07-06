@@ -38,7 +38,12 @@ const CouponsPage: React.FC = () => {
       setError(null);
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/coupons/get`);
-        setCoupons(response.data);
+        console.log(response);
+  
+        // Correctly access the array of coupons
+        const receivedCoupons = response.data?.data ?? [];
+  
+        setCoupons(receivedCoupons);
       } catch (err) {
         console.log(err);
         setError("Failed to fetch coupons");
@@ -46,10 +51,10 @@ const CouponsPage: React.FC = () => {
         setLoading(false);
       }
     };
-
+  
     fetchCoupons();
   }, [selectedWebsite]);
-
+  
   const filteredCoupons = selectedWebsite === "All"
     ? coupons
     : coupons.filter((coupon) => coupon.website === selectedWebsite);

@@ -82,7 +82,7 @@ const Verify: React.FC<VerificationProps> = () => {
         className={`min-h-screen flex font-poppins justify-center items-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white ${isVerifying ? "filter blur-sm" : ""
           }`}
       >
-        <div className="bg-gray-950 p-10 rounded-lg shadow-lg flex flex-col items-center">
+        <div className="bg-transparent p-10 rounded-lg shadow-lg flex flex-col items-center">
           <h2 className="mb-5 text-xl font-bold text-orange-400">Enter OTP</h2>
           <p className="mb-5 text-sm text-orange-100 text-center">
             Please enter the 6-digit code sent to your email.

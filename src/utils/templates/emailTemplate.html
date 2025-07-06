@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Verification</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0f0f0f;
+      font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+      color: #e4e4e4;
+    }
+
+    .email-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 15px;
+    }
+
+    .email-content {
+      background: #1a1a1a;
+      max-width: 600px;
+      width: 100%;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+    }
+
+    .email-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .email-header img {
+      width: 100px;
+      margin-bottom: 15px;
+    }
+
+    .email-header h1 {
+      margin: 0;
+      font-size: 26px;
+      color: #ffffff;
+    }
+
+    .email-body {
+      font-size: 16px;
+      color: #cccccc;
+      line-height: 1.6;
+    }
+
+    .otp-box {
+      background: #2c2c2c;
+      border: 2px dashed #ff9800;
+      color: #ffb74d;
+      font-size: 28px;
+      font-weight: bold;
+      padding: 15px 25px;
+      border-radius: 8px;
+      letter-spacing: 4px;
+      display: inline-block;
+      margin: 20px 0;
+    }
+
+    .button {
+      background: linear-gradient(135deg, #ff9800, #ff5722);
+      color: #fff;
+      padding: 14px 32px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 6px;
+      display: inline-block;
+      margin-top: 15px;
+      transition: background 0.3s ease;
+    }
+
+    .button:hover {
+      background: linear-gradient(135deg, #ff8f00, #e64a19);
+    }
+
+    .footer {
+      font-size: 13px;
+      color: #888;
+      border-top: 1px solid #333;
+      padding-top: 20px;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .email-content {
+        padding: 25px 20px;
+      }
+
+      .otp-box {
+        font-size: 22px;
+        padding: 12px 20px;
+      }
+
+      .email-header h1 {
+        font-size: 22px;
+      }
+
+      .button {
+        padding: 12px 24px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="email-container">
+    <div class="email-content">
+      <div class="email-header">
+        <img src="https://res.cloudinary.com/da2imhgtf/image/upload/v1739556521/stc9u9bv4ceyyr1tq26k.png"
+          alt="603 The Coworking Space Logo" />
+        <h1>Verify Your Email</h1>
+      </div>
+
+      <div class="email-body">
+        <p>Dear {{name}},</p>
+        <p>Thank you for registering with <strong>PriceSphere</strong>! Please use the OTP below to verify your email
+          address:</p>
+
+        <div style="display: flex; justify-content: center; margin: 20px 0;">
+          <div class="otp-box">{{otp_code}}</div>
+        </div>
+
+        <p>This OTP is valid for <strong>10 minutes</strong>. Do not share it with anyone for security reasons.</p>
+        <p>If you didn’t request this, you can safely ignore this message.</p>
+      </div>
+
+      <div class="footer">
+        <p>Best regards,<br><strong>PriceSphere Team</strong></p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
