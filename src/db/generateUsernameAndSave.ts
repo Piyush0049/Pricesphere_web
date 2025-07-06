@@ -1,35 +1,25 @@
-// server/generateUsernameAndSave.ts
-
-import { db } from '@/db/db';
+import Counter from './models/counterModel';
 import { generateUsernameFromNumber } from '@/utils/generateUsername';
-// import type { WithId, Document } from 'mongodb';
 
 export const generateUsernameAndSave = async (): Promise<string> => {
-  const countersCollection = db.collection('counters');
+  let counterDoc = await Counter.findOne({ for: 'user' });
+  if (!counterDoc) {
+    counterDoc = await Counter.create({
+      for: 'user',
+      sequenceValue: 10000000,
+    });
+  }
 
-  // Ensure an index exists to prevent concurrency issues
-  await countersCollection.createIndex({ for: 1 }, { unique: true });
-
-  // Initialize counter if not present
-  await countersCollection.updateOne(
-    { for: 'user' },
-    { $setOnInsert: { sequenceValue: 10000000 } },
-    { upsert: true }
-  );
-
-  // Atomically increment the counter and return the new value
-  const result = await countersCollection.findOneAndUpdate(
+  const updatedCounter = await Counter.findOneAndUpdate(
     { for: 'user' },
     { $inc: { sequenceValue: 1 } },
-    { returnDocument: 'after' }
+    { new: true }
   );
 
-  const newCounterValue = result?.value?.sequenceValue;
-
-  if (!newCounterValue) {
-    console.error('[generateUsernameAndSave] Failed result:', result);
+  if (!updatedCounter?.sequenceValue) {
+    console.error('[generateUsernameAndSave] Updated counter is null:', updatedCounter);
     throw new Error('Failed to increment counter');
   }
 
-  return generateUsernameFromNumber(newCounterValue);
+  return generateUsernameFromNumber(updatedCounter.sequenceValue);
 };
