@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 import ConnectToDB from '@/db/db';
 import User from '@/db/models/userModel';
-import { generateUsername } from '@/utils/generateUsername';
+import { generateUsernameAndSave } from '@/db/generateUsernameAndSave';
 import { setCookie } from '@/utils/setCookie';
+import '@/utils/entry'; 
 
 export async function POST(request: NextRequest) {
   try {
@@ -37,7 +38,7 @@ export async function POST(request: NextRequest) {
     let user = await User.findOne({ email });
 
     if (!user) {
-      const username = await generateUsername();
+      const username = await generateUsernameAndSave();
       user = await User.create({ name, email, username });
     }
 

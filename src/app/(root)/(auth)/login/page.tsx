@@ -1,15 +1,19 @@
+"use client"
 import Login from "./_components/login";
-
 import React from 'react'
+import { useEffect } from "react";
 
-const loginpage = () => {
+const Loginpage = () => {
+  useEffect(() => {
+    fetch('/api/init');
+  }, []);
   return (
     <div>
-      <Login/>
+      <Login />
     </div>
   )
 }
 
-export default loginpage
+export default Loginpage
 
 

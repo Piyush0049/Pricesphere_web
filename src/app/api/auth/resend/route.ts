@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     const OTP = generateOTP();
 
-    const templatePath = path.resolve(process.cwd(), 'src', 'utils', 'templates', 'emailTemplate.html');
+    const templatePath = path.resolve(process.cwd(), 'public', 'templates', 'emailTemplate.html');
 
     let emailContent = fs.readFileSync(templatePath, 'utf-8');
     emailContent = emailContent.replace('{{name}}', otpRecord.newUser.username);
