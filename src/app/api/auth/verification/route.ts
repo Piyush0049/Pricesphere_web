@@ -96,10 +96,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Send welcome email
-    const templatePath = path.resolve(
-      process.cwd(),
-      'src/utils/templates/emailTemplate.html'
-    );
+    const templatePath = path.resolve(process.cwd(), 'public', 'templates', 'successMail.html');
     let htmlContent = fs.readFileSync(templatePath, 'utf-8');
     htmlContent = htmlContent.replace('{{name}}', user.username || user.email);
     htmlContent = htmlContent.replace(
