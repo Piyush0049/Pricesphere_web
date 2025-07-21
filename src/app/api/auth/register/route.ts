@@ -14,8 +14,10 @@ export async function POST(request: NextRequest) {
   try {
     const { username, email, password, confirmPassword } = await request.json();
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    const existingUserEmail = await User.findOne({ email });
+    const existingUserUserName = await User.findOne({ username });
+
+    if (existingUserEmail || existingUserUserName) {
       return NextResponse.json({ success: false, message: 'User already exists' }, { status: 400 });
     }
 
