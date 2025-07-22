@@ -90,9 +90,6 @@ const Sidebar = () => {
         <div onClick={() => { router.push("/coupons") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/coupons' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
           <RiDiscountPercentFill size={20} />
         </div>
-        {/* <div onClick={() => { router.push("/compare") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/compare' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
-          <MdOutlineCompare size={20} />
-        </div> */}
         <div onClick={() => { router.push("/aboutus") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/aboutus' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
           <FaInfoCircle size={20} />
         </div>
