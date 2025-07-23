@@ -59,12 +59,6 @@ const Sidebar = () => {
             <span className="text-xl lg:text-lg lg:mr-3"><RiDiscountPercentFill /></span>
             <span className='hidden lg:block'>Coupons</span>
           </div>
-          {/* <div
-            onClick={() => { router.push("/compare") }}
-            className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base ${pathname === '/compare' ? 'text-orange-500 lg:bg-gray-800' : 'text-gray-400 hover:text-orange-400 hover:bg-gray-700'} lg:px-3 py-2 rounded transition`}>
-            <span className="text-xl lg:text-lg lg:mr-3"><MdOutlineCompare /></span>
-            <span className='hidden lg:block'>Compare</span>
-          </div> */}
           <div
             onClick={() => { router.push("/aboutus") }}
             className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base ${pathname === '/aboutus' ? 'text-orange-500 lg:bg-gray-800' : 'text-gray-400 hover:text-orange-400 hover:bg-gray-700'} lg:px-3 py-2 rounded transition`}>
