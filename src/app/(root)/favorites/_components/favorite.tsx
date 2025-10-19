@@ -5,8 +5,8 @@ import Sidebar from "../../../../components/sidebar";
 import axios from "axios";
 import Filter from "./filter";
 import { useSelector } from "react-redux";
-import NoProductsFound from "../../../../components/searchprod";
-import NotFoundComponent from "../../../../components/prodnotfound";
+import SearchProductsPrompt from "./searchprod";
+import NotFoundComponent from "./prodnotfound";
 import LoadingComponent from "@/components/loader";
 import ProductCard from "./card";
 import HoveredProductCard from "./hovercard";
@@ -191,7 +191,7 @@ const FavoritesPage: React.FC = () => {
           ) : loading && !mounted ? (
             <LoadingComponent />
           ) : (
-            <NoProductsFound />
+            <SearchProductsPrompt />
           )}
         </main>
       </div>
