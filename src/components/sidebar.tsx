@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { FaHome, FaInfoCircle, FaHeart } from 'react-icons/fa';
+import { FaHome, FaHeart } from 'react-icons/fa';
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { usePathname } from 'next/navigation';
 import { MdImageSearch } from "react-icons/md";
