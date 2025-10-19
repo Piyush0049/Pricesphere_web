@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'Authentication token missing.' }, { status: 401 });
     }
     console.log(process.env.JWT_SECRET)
-    const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
 
     const userId = decodedToken.id;
 
@@ -40,10 +40,15 @@ export async function POST(request: NextRequest) {
       await newFavorite.save();
       return NextResponse.json({ message: 'Product added to favorites.' }, { status: 201 });
     }
-  } catch (error: any) {
-    console.log(error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log(error.message);
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        } else {
+            console.log('Unknown error occurred.');
+            return NextResponse.json({ error: 'Unknown error occurred.' }, { status: 500 });
+        }
+    }
 }
 
 export async function GET(request: NextRequest) {
@@ -53,7 +58,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ message: 'Authentication token missing.' }, { status: 401 });
     }
 
-    const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET!); // Use TOKEN_SECRET
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as { id: string }; // Use TOKEN_SECRET
     const userId = decodedToken.id;
 
     if (!userId) {
@@ -67,8 +72,13 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ favorites }, { status: 200 });
-  } catch (error: any) {
-    console.log(error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log(error.message);
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        } else {
+            console.log('Unknown error occurred.');
+            return NextResponse.json({ error: 'Unknown error occurred.' }, { status: 500 });
+        }
+    }
 }

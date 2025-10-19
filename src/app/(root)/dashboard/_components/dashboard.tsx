@@ -36,13 +36,13 @@ const ProductsPage: React.FC = () => {
     }
     return true;
   });
-  
+
   // Add loading states for each website
   const [loadingAmazon, setLoadingAmazon] = useState(false);
   const [loadingFlipkart, setLoadingFlipkart] = useState(false);
   const [loadingAjio, setLoadingAjio] = useState(false);
   const [loadingMyntra, setLoadingMyntra] = useState(false);
-  
+
   // Track which websites have been searched
   const [searchedWebsites, setSearchedWebsites] = useState<string[]>([]);
 
@@ -102,7 +102,7 @@ const ProductsPage: React.FC = () => {
     localStorage.removeItem('fetchedProducts'); // Clear localStorage for fetched products
     setLoading(true);
     setMounted(false);
-    
+
     // Reset all website loading states
     setLoadingAmazon(true);
     setLoadingFlipkart(true);
@@ -127,9 +127,9 @@ const ProductsPage: React.FC = () => {
             return newProducts;
           });
         }
-        
+
         // Set loading state for the specific website to false
-        switch(source) {
+        switch (source) {
           case "amazon":
             setLoadingAmazon(false);
             break;
@@ -145,7 +145,7 @@ const ProductsPage: React.FC = () => {
         }
       } catch (err) {
         console.error(`Failed fetching ${source}`, err);
-        switch(source) {
+        switch (source) {
           case "amazon":
             setLoadingAmazon(false);
             break;
@@ -180,12 +180,12 @@ const ProductsPage: React.FC = () => {
       console.error("No keyword added to search");
       return;
     }
-    
+
     setFetchedProducts(null); // clear previous results
     localStorage.removeItem('fetchedProducts'); // Clear localStorage for fetched products
     setLoading(true);
     setMounted(false);
-    
+
     // Reset all website loading states
     setLoadingAmazon(true);
     setLoadingFlipkart(true);
@@ -210,9 +210,9 @@ const ProductsPage: React.FC = () => {
             return newProducts;
           });
         }
-        
+
         // Set loading state for the specific website to false
-        switch(source) {
+        switch (source) {
           case "amazon":
             setLoadingAmazon(false);
             break;
@@ -229,7 +229,7 @@ const ProductsPage: React.FC = () => {
       } catch (err) {
         console.error(`Failed fetching ${source}`, err);
         // Set loading state for the specific website to false even on error
-        switch(source) {
+        switch (source) {
           case "amazon":
             setLoadingAmazon(false);
             break;
@@ -245,7 +245,7 @@ const ProductsPage: React.FC = () => {
         }
       }
     });
-    
+
     // Main loading state will be set to false after all requests are initiated
     // Individual website loaders will show progress
     setLoading(false);
@@ -296,9 +296,17 @@ const ProductsPage: React.FC = () => {
         },
       });
       toast.success(response.data.message);
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to toggle favorite.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else if (typeof error === "object" && error && "response" in error) {
+        const err = error as { response?: { data?: { message?: string } } };
+        toast.error(err.response?.data?.message || "Failed to toggle favorite.");
+      } else {
+        toast.error("Failed to toggle favorite.");
+      }
     }
+
   };
 
   return (
@@ -386,7 +394,7 @@ const ProductsPage: React.FC = () => {
           ) : (
             <NoProductsFound />
           )}
-          
+
           {/* Website-specific loaders */}
           {!mounted && isAnyWebsiteLoading && searchedWebsites.length > 0 && (
             <div className="mt-8 border-t border-gray-700 pt-6">

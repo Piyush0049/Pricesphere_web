@@ -37,7 +37,29 @@ export default async function RootLayout({
         <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID || ""}>
           <AllPageLoader />
           <StoreProvider user={user?.user ?? null}>{children}</StoreProvider>
-          <Toaster />
+          <Toaster
+            toastOptions={{
+              success: {
+                style: {
+                  background: "#28a745",
+                  color: "#fff",
+                  borderRadius: "8px",
+                },
+              },
+              error: {
+                style: {
+                  background: "#dc3545",
+                  color: "#fff",
+                  borderRadius: "8px",
+                },
+              },
+              style: {
+                background: "#333",
+                color: "#fff",
+                borderRadius: "8px",
+              },
+            }}
+          />
         </GoogleOAuthProvider>
       </body>
     </html>

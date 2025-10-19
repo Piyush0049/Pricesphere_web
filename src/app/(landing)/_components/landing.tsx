@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  TrendingUp,
   Camera,
   Mic,
   ShoppingBag,
@@ -190,9 +189,8 @@ const PriceSpherePage = () => {
 
                 <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-white group-hover:text-blue-400 transition-colors duration-300">Voice Search</h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4 sm:mb-6">
-                  Simply speak what you're looking for. Our AI-powered voice recognition finds the best deals hands-free.
+                  Simply speak what you&apos;re looking for. Our AI-powered voice recognition finds the best deals hands-free.
                 </p>
-
                 <div className="flex items-center gap-2 text-blue-400 text-xs sm:text-sm font-semibold group-hover:gap-3 transition-all cursor-pointer">
                   <span>Try it now</span>
                   <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
