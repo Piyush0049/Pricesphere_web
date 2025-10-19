@@ -61,7 +61,7 @@ const PriceSpherePage = () => {
 
             <Link
               href="/login"
-              className="group relative px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm overflow-hidden rounded-full transition-all duration-300 transform hover:scale-105"
+              className="group relative px-3 sm:px-6 py-1 sm:py-2.5 text-xs sm:text-sm overflow-hidden rounded-full transition-all duration-300 transform hover:scale-105"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-600 transition-all duration-300"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
@@ -91,7 +91,7 @@ const PriceSpherePage = () => {
             </div>
 
             {/* Enhanced Heading with Text Animation */}
-            <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[94px] font-black mb-6 sm:mb-8 leading-[1.1] tracking-tight">
+            <h1 className="text-[38px] sm:text-5xl md:text-5xl lg:text-6xl xl:text-[94px] font-black mb-6 sm:mb-8 leading-[1.1] tracking-tight">
               <span className="block text-white mb-1 sm:mb-2 animate-fade-in-up">
                 Compare Prices
               </span>
@@ -423,22 +423,22 @@ const PriceSpherePage = () => {
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <div className="relative bg-slate-900/40 backdrop-blur-2xl border border-slate-700/50 rounded-3xl sm:rounded-[2.5rem] p-8 sm:p-12 md:p-16 shadow-2xl">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-6 sm:mb-8">
               <span className="bg-gradient-to-r from-white via-slate-200 to-slate-300 bg-clip-text text-transparent">
                 Ready to Save Big?
               </span>
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-slate-300 mb-8 sm:mb-10 md:mb-12 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-lg text-slate-300 mb-8 sm:mb-10 md:mb-12 leading-relaxed">
               Join thousands of smart shoppers using PriceSphere to find the best deals
             </p>
             <Link
               href="/login"
-              className="group inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto px-8 sm:px-10 md:px-12 py-5 sm:py-6 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white text-base sm:text-lg font-bold rounded-xl sm:rounded-2xl transition-all duration-500 transform hover:scale-105 shadow-2xl shadow-orange-500/40 hover:shadow-orange-500/60 relative overflow-hidden"
+              className="group inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto px-4 sm:px-10 md:px-8 py-4 sm:py-4 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white text-base sm:text-lg font-bold rounded-xl sm:rounded-2xl transition-all duration-500 transform hover:scale-105 shadow-2xl shadow-orange-500/40 hover:shadow-orange-500/60 relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-orange-600 via-orange-700 to-orange-600 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
               <span className="relative z-10 flex items-center gap-2 sm:gap-3">
                 <Zap className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-12 transition-transform" />
-                Start Comparing Now
+                Start Now
                 <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-2 transition-transform" />
               </span>
             </Link>
