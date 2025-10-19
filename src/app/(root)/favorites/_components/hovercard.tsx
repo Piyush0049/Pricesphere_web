@@ -1,6 +1,6 @@
 import React from "react";
 import HoverCard from "@/components/hoverCard";
-import { FaExternalLinkAlt, FaHeart } from "react-icons/fa";
+import { FaExternalLinkAlt, FaTrashAlt } from "react-icons/fa";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
 interface hoverProduct {
@@ -17,10 +17,10 @@ interface hoverProduct {
 
 interface ProductCardProps {
   product: hoverProduct;
-  onFavoriteToggle: (product: hoverProduct) => void;
+  onDelete: (link: string) => void;
 }
 
-const HoveredProductCard: React.FC<ProductCardProps> = ({ product, onFavoriteToggle }) => {
+const HoveredProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   console.log(product)
   const parseRating = (rating: string | undefined): number => {
     if (!rating) return 0;
@@ -71,23 +71,15 @@ const HoveredProductCard: React.FC<ProductCardProps> = ({ product, onFavoriteTog
 
   return (
     <HoverCard>
-      <div className="flex justify-between items-center">
-        <h3 className="text-sm sm:block hidden sm:text-lg font-bold mb-1.5 sm:mb-2 border-b border-gray-600 pb-1">
-          {product.name}
-        </h3>
-        <h3 className="text-[13px] block sm:hidden sm:text-lg font-bold mb-1.5 sm:mb-2 border-b border-gray-600 pb-1">
-          {truncateText(product.name, 70)}
-        </h3>
-      </div>
-      <div className="flex justify-between items-center mb-1">
-        <p className="text-orange-400 text-sm sm:text-base font-semibold">
-          {product.price}
-        </p>
-        <FaHeart
-          className="text-gray-400 hover:text-red-500 cursor-pointer transition-colors duration-200"
-          onClick={() => onFavoriteToggle(product)}
-        />
-      </div>
+      <h3 className="text-sm sm:block hidden sm:text-lg font-bold mb-1.5 sm:mb-2 border-b border-gray-600 pb-1">
+        {product.name}
+      </h3>
+      <h3 className="text-[13px] block sm:hidden sm:text-lg font-bold mb-1.5 sm:mb-2 border-b border-gray-600 pb-1">
+        {truncateText(product.name, 70)}
+      </h3>
+      <p className="text-orange-400 text-sm sm:text-base font-semibold mb-1">
+        {product.price}
+      </p>
       <p className="text-gray-400 text-[11px] sm:text-sm mb-1 sm:mb-2">
         {product.website || "Website Unavailable"}
       </p>
@@ -119,6 +111,13 @@ const HoveredProductCard: React.FC<ProductCardProps> = ({ product, onFavoriteTog
       >
         Buy Now <FaExternalLinkAlt />
       </a>
+          <button
+            onClick={() => onDelete(product.link)}
+            className="absolute top-2 right-2 p-2 rounded-full text-gray-400 hover:text-red-500 hover:bg-gray-100 focus:outline-none transition-colors duration-200"
+            aria-label="Delete"
+          >
+            <FaTrashAlt className="text-lg" />
+          </button>
     </HoverCard>
   );
 };

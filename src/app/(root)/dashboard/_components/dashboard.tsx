@@ -12,6 +12,7 @@ import ProductCard from "./card";
 import HoveredProductCard from "./hovercard";
 import RecordingComponent from "./recordingComponent";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 type Product = {
   name: string;
@@ -28,7 +29,13 @@ type Product = {
 const ProductsPage: React.FC = () => {
   const [recording, setRecording] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
-  const [mounted, setMounted] = useState(true);
+  const [mounted, setMounted] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedProducts = localStorage.getItem('fetchedProducts');
+      return !savedProducts; // If products are saved, it's not 'mounted' in the initial empty state
+    }
+    return true;
+  });
   
   // Add loading states for each website
   const [loadingAmazon, setLoadingAmazon] = useState(false);
@@ -51,13 +58,25 @@ const ProductsPage: React.FC = () => {
     maxPrice: number;
     sortBy: string;
   };
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('searchQuery') || '';
+    }
+    return '';
+  });
   const [fetchedProducts, setFetchedProducts] = useState<Product[] | null>(
-    null
+    () => {
+      if (typeof window !== 'undefined') {
+        const savedProducts = localStorage.getItem('fetchedProducts');
+        return savedProducts ? JSON.parse(savedProducts) : null;
+      }
+      return null;
+    }
   );
   const [hoveredProduct, setHoveredProduct] = useState<Product | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const filterRef = useRef<HTMLDivElement | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null); // Add this ref
 
   const cleanQuery = (query: string): string => {
     return query.trim().replace(/\s+/g, " ");
@@ -66,6 +85,13 @@ const ProductsPage: React.FC = () => {
   const handleTypeSearch = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Abort any ongoing requests
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const newAbortController = new AbortController();
+    abortControllerRef.current = newAbortController;
+
     const cleanedQuery = cleanQuery(searchQuery);
     if (!cleanedQuery) {
       console.error("No keyword added to search");
@@ -73,6 +99,7 @@ const ProductsPage: React.FC = () => {
     }
 
     setFetchedProducts(null); // clear previous results
+    localStorage.removeItem('fetchedProducts'); // Clear localStorage for fetched products
     setLoading(true);
     setMounted(false);
     
@@ -90,10 +117,15 @@ const ProductsPage: React.FC = () => {
       try {
         const response = await axios.get(`${baseURL}/search/${source}`, {
           params: { key: cleanedQuery },
+          signal: newAbortController.signal, // Pass the signal here
         });
 
         if (response.data && Array.isArray(response.data)) {
-          setFetchedProducts((prev) => (prev ? [...prev, ...response.data] : response.data));
+          setFetchedProducts((prev) => {
+            const newProducts = prev ? [...prev, ...response.data] : response.data;
+            localStorage.setItem('fetchedProducts', JSON.stringify(newProducts));
+            return newProducts;
+          });
         }
         
         // Set loading state for the specific website to false
@@ -135,6 +167,14 @@ const ProductsPage: React.FC = () => {
 
   const handleVoiceSearch = async (e: React.FormEvent, voiceQuery: string) => {
     e.preventDefault();
+
+    // Abort any ongoing requests
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const newAbortController = new AbortController();
+    abortControllerRef.current = newAbortController;
+
     const cleanedQuery = cleanQuery(voiceQuery);
     if (!cleanedQuery) {
       console.error("No keyword added to search");
@@ -142,6 +182,7 @@ const ProductsPage: React.FC = () => {
     }
     
     setFetchedProducts(null); // clear previous results
+    localStorage.removeItem('fetchedProducts'); // Clear localStorage for fetched products
     setLoading(true);
     setMounted(false);
     
@@ -159,10 +200,15 @@ const ProductsPage: React.FC = () => {
       try {
         const response = await axios.get(`${baseURL}/search/${source}`, {
           params: { key: cleanedQuery },
+          signal: newAbortController.signal, // Pass the signal here
         });
 
         if (response.data && Array.isArray(response.data)) {
-          setFetchedProducts((prev) => (prev ? [...prev, ...response.data] : response.data));
+          setFetchedProducts((prev) => {
+            const newProducts = prev ? [...prev, ...response.data] : response.data;
+            localStorage.setItem('fetchedProducts', JSON.stringify(newProducts));
+            return newProducts;
+          });
         }
         
         // Set loading state for the specific website to false
@@ -237,6 +283,24 @@ const ProductsPage: React.FC = () => {
 
   const isAnyWebsiteLoading = loadingAmazon || loadingFlipkart || loadingAjio || loadingMyntra;
 
+  const handleFavoriteToggle = async (product: Product) => {
+
+    try {
+      const response = await axios.post("/api/favorites", {
+        product: {
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          website: product.website,
+          link: product.link,
+        },
+      });
+      toast.success(response.data.message);
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Failed to toggle favorite.");
+    }
+  };
+
   return (
     <div className="min-h-screen flex lg:px-6 xl:px-10 sc:px-28 bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white font-poppins relative">
       <Sidebar />
@@ -270,7 +334,15 @@ const ProductsPage: React.FC = () => {
                   type="text"
                   placeholder="Search for products..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    localStorage.setItem('searchQuery', e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleTypeSearch(e);
+                    }
+                  }}
                   className="w-40 sm:w-64 px-4 py-1.5 md:py-2 pr-10 text-sm text-gray-100 bg-gradient-to-br from-gray-800 via-gray-800 to-gray-800 rounded-l-full focus:outline-none border border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
                 <RecordingComponent
@@ -302,7 +374,7 @@ const ProductsPage: React.FC = () => {
                 >
                   <ProductCard product={product} />
                   {hoveredProduct && hoveredProduct === product && (
-                    <HoveredProductCard product={product} />
+                    <HoveredProductCard product={product} onFavoriteToggle={() => handleFavoriteToggle(product)} />
                   )}
                 </div>
               ))}

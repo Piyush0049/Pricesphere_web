@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { FaHome, FaInfoCircle } from 'react-icons/fa';
+import { FaHome, FaInfoCircle, FaHeart } from 'react-icons/fa';
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { usePathname } from 'next/navigation';
 import { MdImageSearch } from "react-icons/md";
@@ -51,13 +51,19 @@ const Sidebar = () => {
             onClick={() => { router.push("/imagesearch") }}
             className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base ${pathname === '/imagesearch' ? 'text-orange-500 lg:bg-gray-800' : 'text-gray-400 hover:text-orange-400 hover:bg-gray-700'} lg:px-3 py-2 rounded transition`}>
             <span className="text-xl lg:text-lg lg:mr-3"><MdImageSearch /></span>
-            <span className='hidden lg:block'>Search</span>
+            <span className='hidden lg:block'>Image Seek</span>
           </div>
           <div
             onClick={() => { router.push("/coupons") }}
             className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base ${pathname === '/coupons' ? 'text-orange-500 lg:bg-gray-800' : 'text-gray-400 hover:text-orange-400 hover:bg-gray-700'} lg:px-3 py-2 rounded transition`}>
             <span className="text-xl lg:text-lg lg:mr-3"><RiDiscountPercentFill /></span>
             <span className='hidden lg:block'>Coupons</span>
+          </div>
+          <div
+            onClick={() => { router.push("/favorites") }}
+            className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base ${pathname === '/favorites' ? 'text-orange-500 lg:bg-gray-800' : 'text-gray-400 hover:text-orange-400 hover:bg-gray-700'} lg:px-3 py-2 rounded transition`}>
+            <span className="text-xl lg:text-lg lg:mr-3"><FaHeart /></span>
+            <span className='hidden lg:block'>Favorites</span>
           </div>
           <div
             onClick={() => { router.push("/aboutus") }}
@@ -83,6 +89,9 @@ const Sidebar = () => {
         </div>
         <div onClick={() => { router.push("/coupons") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/coupons' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
           <RiDiscountPercentFill size={20} />
+        </div>
+        <div onClick={() => { router.push("/favorites") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/favorites' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
+          <FaHeart size={20} />
         </div>
         <div onClick={() => { router.push("/aboutus") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/aboutus' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
           <FaInfoCircle size={20} />
