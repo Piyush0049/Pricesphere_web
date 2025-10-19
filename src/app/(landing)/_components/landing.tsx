@@ -91,7 +91,7 @@ const PriceSpherePage = () => {
             </div>
 
             {/* Enhanced Heading with Text Animation */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[94px] font-black mb-6 sm:mb-8 leading-[1.1] tracking-tight">
+            <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[94px] font-black mb-6 sm:mb-8 leading-[1.1] tracking-tight">
               <span className="block text-white mb-1 sm:mb-2 animate-fade-in-up">
                 Compare Prices
               </span>
@@ -131,9 +131,6 @@ const PriceSpherePage = () => {
                 <div className="absolute inset-0 rounded-xl sm:rounded-2xl shadow-2xl shadow-orange-500/40 group-hover:shadow-orange-500/60 transition-all duration-500"></div>
               </Link>
             </div>
-
-            {/* Enhanced Platform Logos with Glassmorphism */}
-
           </div>
         </div>
       </section>
