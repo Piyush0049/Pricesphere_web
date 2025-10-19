@@ -65,12 +65,12 @@ const Sidebar = () => {
             <span className="text-xl lg:text-lg lg:mr-3"><FaHeart /></span>
             <span className='hidden lg:block'>Favorites</span>
           </div>
-          <div
+          {/* <div
             onClick={() => { router.push("/aboutus") }}
             className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base ${pathname === '/aboutus' ? 'text-orange-500 lg:bg-gray-800' : 'text-gray-400 hover:text-orange-400 hover:bg-gray-700'} lg:px-3 py-2 rounded transition`}>
             <span className="text-xl lg:text-lg lg:mr-3"><FaInfoCircle /></span>
             <span className='hidden lg:block'>About Us</span>
-          </div>
+          </div> */}
           <div
             onClick={(e) => logout(e)}
             className={`flex hover:cursor-pointer items-center lg:justify-normal justify-center text-base text-gray-400 hover:text-orange-400 hover:bg-gray-700 lg:px-3 py-2 rounded transition`}>
@@ -93,9 +93,9 @@ const Sidebar = () => {
         <div onClick={() => { router.push("/favorites") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/favorites' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
           <FaHeart size={20} />
         </div>
-        <div onClick={() => { router.push("/aboutus") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/aboutus' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
+        {/* <div onClick={() => { router.push("/aboutus") }} className={`flex hover:cursor-pointer flex-col items-center ${pathname === '/aboutus' ? 'text-orange-600' : 'text-white hover:text-orange-500'}  transition`}>
           <FaInfoCircle size={20} />
-        </div>
+        </div> */}
         <div onClick={(e) => logout(e)} className={`flex hover:cursor-pointer flex-col items-center text-white hover:text-orange-500 transition`}>
           <LuLogOut size={20} />
         </div>
