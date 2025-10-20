@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { FaFilter } from "react-icons/fa";
+// import { FaFilter } from "react-icons/fa";
 import Sidebar from "../../../../components/sidebar";
 import axios from "axios";
-import Filter from "./filter";
-import { useSelector } from "react-redux";
+// import Filter from "./filter";
+// import { useSelector } from "react-redux";
 import SearchProductsPrompt from "./searchprod";
 import NotFoundComponent from "./prodnotfound";
 import LoadingComponent from "@/components/loader";
@@ -36,21 +36,21 @@ const FavoritesPage: React.FC = () => {
   const [mounted, setMounted] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   
-  const { company, minPrice, maxPrice, sortBy } = useSelector(
-    (state: { filters: FiltersState }) => state.filters
-  );
+  // const { company, minPrice, maxPrice, sortBy } = useSelector(
+  //   (state: { filters: FiltersState }) => state.filters
+  // );
 
-  type FiltersState = {
-    company: string[];
-    minPrice: number;
-    maxPrice: number;
-    sortBy: string;
-  };
+  // type FiltersState = {
+  //   company: string[];
+  //   minPrice: number;
+  //   maxPrice: number;
+  //   sortBy: string;
+  // };
   const [favoriteProducts, setFavoriteProducts] = useState<FavoriteAPIItem[] | null>(
     null
   );
   const [hoveredProduct, setHoveredProduct] = useState<Product | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
+  // const [showFilters, setShowFilters] = useState(false);
   const filterRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -92,31 +92,33 @@ const FavoritesPage: React.FC = () => {
     }
   };
 
-  const toggleFilters = () => {
-    setShowFilters((prev) => !prev);
-  };
+  // const toggleFilters = () => {
+  //   setShowFilters((prev) => !prev);
+  // };
 
   const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredProducts = favoriteProducts?.filter(
-    (favoriteItem) => {
-      const companyFilter = company.length === 0 || company.includes(favoriteItem.product.website);
-      const price = parseFloat(favoriteItem.product.price.replace(/[^\d.-]/g, ""));
-      const minPriceFilter = price >= minPrice;
-      const maxPriceFilter = price <= maxPrice;
-      const searchFilter = favoriteItem.product.name.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredProducts = favoriteProducts;
+  // ?.filter(
+  //   (favoriteItem) => {
+  //     const companyFilter = company.length === 0 || company.includes(favoriteItem.product.website);
+  //     const price = parseFloat(favoriteItem.product.price.replace(/[^\d.-]/g, ""));
+  //     const minPriceFilter = price >= minPrice;
+  //     const maxPriceFilter = price <= maxPrice;
+  //     const searchFilter = favoriteItem.product.name.toLowerCase().includes(searchQuery.toLowerCase());
 
-      return companyFilter && minPriceFilter && maxPriceFilter && searchFilter;
-    }
-  );
+  //     return companyFilter && minPriceFilter && maxPriceFilter && searchFilter;
+  //   }
+  // );
 
-  const sortedProducts = filteredProducts?.sort((a, b) => {
-    const priceA = parseFloat(a.product.price.replace(/[^\d.-]/g, ""));
-    const priceB = parseFloat(b.product.price.replace(/[^\d.-]/g, ""));
-    return sortBy === "low-to-high" ? priceA - priceB : priceB - priceA;
-  });
+  const sortedProducts = filteredProducts;
+  // ?.sort((a, b) => {
+  //   const priceA = parseFloat(a.product.price.replace(/[^\d.-]/g, ""));
+  //   const priceB = parseFloat(b.product.price.replace(/[^\d.-]/g, ""));
+  //   return sortBy === "low-to-high" ? priceA - priceB : priceB - priceA;
+  // });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -124,7 +126,7 @@ const FavoritesPage: React.FC = () => {
         filterRef.current &&
         !filterRef.current.contains(event.target as Node)
       ) {
-        setShowFilters(false);
+        // setShowFilters(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -145,11 +147,11 @@ const FavoritesPage: React.FC = () => {
             sizes="59px"
             priority={true}
           />
-          {showFilters && (
+          {/* {showFilters && (
             <div ref={filterRef}>
               <Filter onClose={() => setShowFilters(false)} />
             </div>
-          )}
+          )} */}
           <div className="relative justify-end md:justify-normal flex items-center gap-5 md:gap-10">
             <input
               type="text"
@@ -158,7 +160,7 @@ const FavoritesPage: React.FC = () => {
               value={searchQuery}
               onChange={onSearchChange}
             />
-            <div className="flex gap-3 md:gap-10">
+            {/* <div className="flex gap-3 md:gap-10">
               <div
                 className="relative flex items-center gap-2 cursor-pointer"
                 onClick={toggleFilters}
@@ -166,7 +168,7 @@ const FavoritesPage: React.FC = () => {
                 <FaFilter />
                 <h2 className="text-white hidden sm:block">Filters</h2>
               </div>
-            </div>
+            </div> */}
           </div>
         </header>
         <main className="pt-4 sm:pt-7 pb-10 px-2 sm:px-6 relative">
