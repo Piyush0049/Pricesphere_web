@@ -160,15 +160,6 @@ const FavoritesPage: React.FC = () => {
               value={searchQuery}
               onChange={onSearchChange}
             />
-            {/* <div className="flex gap-3 md:gap-10">
-              <div
-                className="relative flex items-center gap-2 cursor-pointer"
-                onClick={toggleFilters}
-              >
-                <FaFilter />
-                <h2 className="text-white hidden sm:block">Filters</h2>
-              </div>
-            </div> */}
           </div>
         </header>
         <main className="pt-4 sm:pt-7 pb-10 px-2 sm:px-6 relative">
