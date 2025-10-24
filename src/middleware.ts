@@ -13,7 +13,6 @@ export async function middleware(request: NextRequest) {
 
   const hasValidToken = token && token.trim() !== "";
 
-  // If a valid token exists, prevent access to public routes
   if (hasValidToken && isPublicRoute) {
     return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
   }
