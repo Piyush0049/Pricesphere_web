@@ -2,8 +2,6 @@ import { getCookie } from "./cookie_actions";
 import apiClient from "@/apiClient/apiClient";
 import { UserDataProps } from "@/types";
 
-// Fix for line 55:41 and 83:40
-// Update the joinWaitingList function to handle errors properly
 
 export const joinWaitingList = async (email: string) => {
   try {
