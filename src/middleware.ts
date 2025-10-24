@@ -17,7 +17,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
   }
 
-  // If no valid token and not on a public route, redirect to login (avoid infinite redirects)
   if (!hasValidToken && !isPublicRoute && path !== "/login") {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
