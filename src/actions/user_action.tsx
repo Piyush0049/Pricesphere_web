@@ -132,7 +132,6 @@ export const logoutUser = async () => {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        // cache: "no-store",
       }
     );
 
