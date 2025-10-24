@@ -148,7 +148,6 @@ export const logoutUser = async () => {
 };
 
 
-// Fixed duplicate catch blocks and variable naming issues
 export const resendOtp = async (email: string) => {
   try {
     const response = await apiClient.post("/api/auth/resend", { email });
