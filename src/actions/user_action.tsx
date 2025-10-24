@@ -151,8 +151,6 @@ export const logoutUser = async () => {
 export const resendOtp = async (email: string) => {
   try {
     const response = await apiClient.post("/api/auth/resend", { email });
-
-    // Fixed type and variable name
     const data = response.data as { user: UserDataProps; token: string };
     return data;
   } catch (error) {
