@@ -158,7 +158,6 @@ export const resendOtp = async (email: string) => {
       throw new Error(`Error re-sending OTP: ${error.message}`);
     }
     
-    // For axios errors with response data
     const axiosError = error as { response?: { data?: { message?: string } } };
     if (axiosError.response?.data?.message) {
       throw new Error(axiosError.response.data.message);
