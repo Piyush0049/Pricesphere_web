@@ -29,8 +29,6 @@ const ResendOtpButton = () => {
       }
       
       const data = await resendOtp(email) as OtpResponse;
-      
-      // Check for error property first (from our updated resendOtp function)
       if (data.error) {
         toast.error(data.error);
       } 
