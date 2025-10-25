@@ -7,7 +7,6 @@ import StoreProvider from "./StoreProvider";
 import { getUser } from "@/actions/user_action";
 import { AllPageLoader } from "@/components/allloader";
 
-// Load fonts using next/font
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
