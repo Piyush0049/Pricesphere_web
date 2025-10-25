@@ -23,7 +23,6 @@ const ResendOtpButton = () => {
     const email = localStorage.getItem("email");
   
     try {
-      // Handle null email case properly
       if (!email) {
         toast.error("Email not found");
         return;
