@@ -6,8 +6,6 @@ import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { UserDataProps } from "@/types";
 
-// Define the expected response type from resendOtp
-// Replace the OtpResponse interface with:
 interface OtpResponse {
   success: boolean;
   message: string;
